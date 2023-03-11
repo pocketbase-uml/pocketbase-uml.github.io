@@ -1,0 +1,834 @@
+[
+  {
+    "id": "_pb_users_auth_",
+    "name": "users",
+    "type": "auth",
+    "system": false,
+    "schema": [
+      {
+        "id": "users_name",
+        "name": "name",
+        "type": "text",
+        "system": false,
+        "required": false,
+        "unique": false,
+        "options": {
+          "min": null,
+          "max": null,
+          "pattern": ""
+        }
+      },
+      {
+        "id": "users_avatar",
+        "name": "avatar",
+        "type": "file",
+        "system": false,
+        "required": false,
+        "unique": false,
+        "options": {
+          "maxSelect": 1,
+          "maxSize": 5242880,
+          "mimeTypes": ["image/jpeg", "image/png", "image/svg+xml", "image/gif", "image/webp"],
+          "thumbs": null
+        }
+      }
+    ],
+    "listRule": "id = @request.auth.id",
+    "viewRule": "id = @request.auth.id",
+    "createRule": "",
+    "updateRule": "id = @request.auth.id",
+    "deleteRule": "id = @request.auth.id",
+    "options": {
+      "allowEmailAuth": true,
+      "allowOAuth2Auth": true,
+      "allowUsernameAuth": true,
+      "exceptEmailDomains": null,
+      "manageRule": null,
+      "minPasswordLength": 8,
+      "onlyEmailDomains": null,
+      "requireEmail": false
+    }
+  },
+  {
+    "id": "7ksmp2ny90ci03s",
+    "name": "products",
+    "type": "base",
+    "system": false,
+    "schema": [
+      {
+        "id": "pfetcsws",
+        "name": "sku",
+        "type": "text",
+        "system": false,
+        "required": true,
+        "unique": true,
+        "options": {
+          "min": null,
+          "max": null,
+          "pattern": "^([A-Z]\\d){6}$"
+        }
+      },
+      {
+        "id": "x7wzbja9",
+        "name": "name",
+        "type": "text",
+        "system": false,
+        "required": true,
+        "unique": false,
+        "options": {
+          "min": 3,
+          "max": 100,
+          "pattern": ""
+        }
+      },
+      {
+        "id": "wjqpcck3",
+        "name": "description",
+        "type": "editor",
+        "system": false,
+        "required": false,
+        "unique": false,
+        "options": {}
+      },
+      {
+        "id": "xidrmfeq",
+        "name": "categories",
+        "type": "relation",
+        "system": false,
+        "required": true,
+        "unique": false,
+        "options": {
+          "collectionId": "eex65w4ack7mn3o",
+          "cascadeDelete": false,
+          "minSelect": 1,
+          "maxSelect": 3,
+          "displayFields": []
+        }
+      },
+      {
+        "id": "vynr37su",
+        "name": "createdBy",
+        "type": "relation",
+        "system": false,
+        "required": true,
+        "unique": false,
+        "options": {
+          "collectionId": "_pb_users_auth_",
+          "cascadeDelete": false,
+          "minSelect": null,
+          "maxSelect": 1,
+          "displayFields": []
+        }
+      },
+      {
+        "id": "gequjmkp",
+        "name": "updatedBy",
+        "type": "relation",
+        "system": false,
+        "required": true,
+        "unique": false,
+        "options": {
+          "collectionId": "_pb_users_auth_",
+          "cascadeDelete": false,
+          "minSelect": null,
+          "maxSelect": 1,
+          "displayFields": []
+        }
+      }
+    ],
+    "listRule": null,
+    "viewRule": null,
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
+    "options": {}
+  },
+  {
+    "id": "eex65w4ack7mn3o",
+    "name": "categories",
+    "type": "base",
+    "system": false,
+    "schema": [
+      {
+        "id": "stkrqbrl",
+        "name": "name",
+        "type": "text",
+        "system": false,
+        "required": true,
+        "unique": true,
+        "options": {
+          "min": 3,
+          "max": 50,
+          "pattern": ""
+        }
+      },
+      {
+        "id": "k9btqcti",
+        "name": "createdBy",
+        "type": "relation",
+        "system": false,
+        "required": true,
+        "unique": false,
+        "options": {
+          "collectionId": "_pb_users_auth_",
+          "cascadeDelete": false,
+          "minSelect": null,
+          "maxSelect": 1,
+          "displayFields": []
+        }
+      },
+      {
+        "id": "njokb1dd",
+        "name": "updatedBy",
+        "type": "relation",
+        "system": false,
+        "required": true,
+        "unique": false,
+        "options": {
+          "collectionId": "_pb_users_auth_",
+          "cascadeDelete": false,
+          "minSelect": null,
+          "maxSelect": 1,
+          "displayFields": []
+        }
+      }
+    ],
+    "listRule": null,
+    "viewRule": null,
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
+    "options": {}
+  },
+  {
+    "id": "docmsmucw5m0i6e",
+    "name": "stores",
+    "type": "base",
+    "system": false,
+    "schema": [
+      {
+        "id": "2nkmlp27",
+        "name": "name",
+        "type": "text",
+        "system": false,
+        "required": true,
+        "unique": true,
+        "options": {
+          "min": 3,
+          "max": 100,
+          "pattern": ""
+        }
+      },
+      {
+        "id": "chr7fdln",
+        "name": "url",
+        "type": "url",
+        "system": false,
+        "required": false,
+        "unique": false,
+        "options": {
+          "exceptDomains": [],
+          "onlyDomains": []
+        }
+      },
+      {
+        "id": "ywv2sosn",
+        "name": "manager",
+        "type": "relation",
+        "system": false,
+        "required": false,
+        "unique": false,
+        "options": {
+          "collectionId": "ffjhg4gh7vctzf4",
+          "cascadeDelete": false,
+          "minSelect": null,
+          "maxSelect": 1,
+          "displayFields": []
+        }
+      },
+      {
+        "id": "hfac6btl",
+        "name": "tags",
+        "type": "select",
+        "system": false,
+        "required": false,
+        "unique": false,
+        "options": {
+          "maxSelect": 5,
+          "values": ["tag1", "tag2", "tag3", "tag4", "tag5", "tag6", "tag7", "tag8", "tag9"]
+        }
+      },
+      {
+        "id": "kcg3y3e2",
+        "name": "moreTags",
+        "type": "select",
+        "system": false,
+        "required": false,
+        "unique": false,
+        "options": {
+          "maxSelect": 3,
+          "values": ["option1", "option2", "option3", "option4", "option5", "option6"]
+        }
+      },
+      {
+        "id": "1ro4cirn",
+        "name": "country",
+        "type": "select",
+        "system": false,
+        "required": true,
+        "unique": false,
+        "options": {
+          "maxSelect": 1,
+          "values": [
+            "France",
+            "UK",
+            "Sweden",
+            "Germany",
+            "Austria",
+            "Italy",
+            "Belgium",
+            "Denmark",
+            "Norway",
+            "Spain",
+            "Portugal",
+            "Ukraine",
+            "Poland",
+            "Estonia",
+            "Australia",
+            "Mexico",
+            "Guatemala"
+          ]
+        }
+      },
+      {
+        "id": "cbhpfbcw",
+        "name": "createdBy",
+        "type": "relation",
+        "system": false,
+        "required": true,
+        "unique": false,
+        "options": {
+          "collectionId": "_pb_users_auth_",
+          "cascadeDelete": false,
+          "minSelect": null,
+          "maxSelect": 1,
+          "displayFields": []
+        }
+      },
+      {
+        "id": "bnwyeeqq",
+        "name": "updatedBy",
+        "type": "relation",
+        "system": false,
+        "required": true,
+        "unique": false,
+        "options": {
+          "collectionId": "_pb_users_auth_",
+          "cascadeDelete": false,
+          "minSelect": null,
+          "maxSelect": 1,
+          "displayFields": []
+        }
+      }
+    ],
+    "listRule": null,
+    "viewRule": null,
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
+    "options": {}
+  },
+  {
+    "id": "ffjhg4gh7vctzf4",
+    "name": "employees",
+    "type": "base",
+    "system": false,
+    "schema": [
+      {
+        "id": "ihn4vryo",
+        "name": "badge",
+        "type": "text",
+        "system": false,
+        "required": true,
+        "unique": true,
+        "options": {
+          "min": null,
+          "max": null,
+          "pattern": "^[A-Z]{2}\\d{5}$"
+        }
+      },
+      {
+        "id": "uv4y51rf",
+        "name": "firstName",
+        "type": "text",
+        "system": false,
+        "required": true,
+        "unique": false,
+        "options": {
+          "min": 1,
+          "max": 50,
+          "pattern": ""
+        }
+      },
+      {
+        "id": "k85p7nu5",
+        "name": "lastName",
+        "type": "text",
+        "system": false,
+        "required": true,
+        "unique": false,
+        "options": {
+          "min": 1,
+          "max": 50,
+          "pattern": ""
+        }
+      },
+      {
+        "id": "x1tr7awh",
+        "name": "email",
+        "type": "email",
+        "system": false,
+        "required": true,
+        "unique": false,
+        "options": {
+          "exceptDomains": null,
+          "onlyDomains": null
+        }
+      },
+      {
+        "id": "m7cbpijm",
+        "name": "hiredAt",
+        "type": "date",
+        "system": false,
+        "required": true,
+        "unique": false,
+        "options": {
+          "min": "",
+          "max": ""
+        }
+      },
+      {
+        "id": "yu4k5gkt",
+        "name": "store",
+        "type": "relation",
+        "system": false,
+        "required": false,
+        "unique": false,
+        "options": {
+          "collectionId": "docmsmucw5m0i6e",
+          "cascadeDelete": false,
+          "minSelect": null,
+          "maxSelect": 1,
+          "displayFields": []
+        }
+      },
+      {
+        "id": "ebmoq0ze",
+        "name": "manager",
+        "type": "relation",
+        "system": false,
+        "required": false,
+        "unique": false,
+        "options": {
+          "collectionId": "ffjhg4gh7vctzf4",
+          "cascadeDelete": false,
+          "minSelect": null,
+          "maxSelect": 1,
+          "displayFields": []
+        }
+      },
+      {
+        "id": "iirpgc2c",
+        "name": "opts",
+        "type": "select",
+        "system": false,
+        "required": true,
+        "unique": false,
+        "options": {
+          "maxSelect": 2,
+          "values": ["one", "two", "three", "four", "five", "six", "seven"]
+        }
+      },
+      {
+        "id": "xysulcdv",
+        "name": "createdBy",
+        "type": "relation",
+        "system": false,
+        "required": true,
+        "unique": false,
+        "options": {
+          "collectionId": "_pb_users_auth_",
+          "cascadeDelete": false,
+          "minSelect": null,
+          "maxSelect": 1,
+          "displayFields": []
+        }
+      },
+      {
+        "id": "9ngqlcdb",
+        "name": "updatedBy",
+        "type": "relation",
+        "system": false,
+        "required": true,
+        "unique": false,
+        "options": {
+          "collectionId": "_pb_users_auth_",
+          "cascadeDelete": false,
+          "minSelect": null,
+          "maxSelect": 1,
+          "displayFields": []
+        }
+      }
+    ],
+    "listRule": null,
+    "viewRule": null,
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
+    "options": {}
+  },
+  {
+    "id": "4mwstpmsvlc5w4v",
+    "name": "stocks",
+    "type": "base",
+    "system": false,
+    "schema": [
+      {
+        "id": "9dfldyen",
+        "name": "store",
+        "type": "relation",
+        "system": false,
+        "required": true,
+        "unique": false,
+        "options": {
+          "collectionId": "docmsmucw5m0i6e",
+          "cascadeDelete": true,
+          "minSelect": null,
+          "maxSelect": 1,
+          "displayFields": []
+        }
+      },
+      {
+        "id": "ljjp8vtp",
+        "name": "product",
+        "type": "relation",
+        "system": false,
+        "required": true,
+        "unique": false,
+        "options": {
+          "collectionId": "7ksmp2ny90ci03s",
+          "cascadeDelete": true,
+          "minSelect": null,
+          "maxSelect": 1,
+          "displayFields": []
+        }
+      },
+      {
+        "id": "2bqim1jw",
+        "name": "units",
+        "type": "number",
+        "system": false,
+        "required": false,
+        "unique": false,
+        "options": {
+          "min": 1,
+          "max": null
+        }
+      },
+      {
+        "id": "tjwhbyyt",
+        "name": "updatedBy",
+        "type": "relation",
+        "system": false,
+        "required": true,
+        "unique": false,
+        "options": {
+          "collectionId": "_pb_users_auth_",
+          "cascadeDelete": false,
+          "minSelect": null,
+          "maxSelect": 1,
+          "displayFields": []
+        }
+      },
+      {
+        "id": "iwpsavxr",
+        "name": "createdBy",
+        "type": "relation",
+        "system": false,
+        "required": true,
+        "unique": false,
+        "options": {
+          "collectionId": "_pb_users_auth_",
+          "cascadeDelete": false,
+          "minSelect": null,
+          "maxSelect": 1,
+          "displayFields": []
+        }
+      }
+    ],
+    "listRule": null,
+    "viewRule": null,
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
+    "options": {}
+  },
+  {
+    "id": "acukq57u0ftx4qi",
+    "name": "makes",
+    "type": "base",
+    "system": false,
+    "schema": [
+      {
+        "id": "jpfp8ceh",
+        "name": "name",
+        "type": "text",
+        "system": false,
+        "required": true,
+        "unique": true,
+        "options": {
+          "min": 2,
+          "max": 50,
+          "pattern": ""
+        }
+      }
+    ],
+    "listRule": null,
+    "viewRule": null,
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
+    "options": {}
+  },
+  {
+    "id": "msodycn6wvtgc3y",
+    "name": "models",
+    "type": "base",
+    "system": false,
+    "schema": [
+      {
+        "id": "nzuwys7y",
+        "name": "name",
+        "type": "text",
+        "system": false,
+        "required": true,
+        "unique": false,
+        "options": {
+          "min": 1,
+          "max": 50,
+          "pattern": ""
+        }
+      },
+      {
+        "id": "qtf9jscz",
+        "name": "make",
+        "type": "relation",
+        "system": false,
+        "required": true,
+        "unique": false,
+        "options": {
+          "collectionId": "acukq57u0ftx4qi",
+          "cascadeDelete": false,
+          "minSelect": null,
+          "maxSelect": 1,
+          "displayFields": []
+        }
+      }
+    ],
+    "listRule": null,
+    "viewRule": null,
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
+    "options": {}
+  },
+  {
+    "id": "sa4pduxtbtp71ub",
+    "name": "cars",
+    "type": "base",
+    "system": false,
+    "schema": [
+      {
+        "id": "dmdk0joe",
+        "name": "sku",
+        "type": "text",
+        "system": false,
+        "required": true,
+        "unique": true,
+        "options": {
+          "min": null,
+          "max": null,
+          "pattern": "^([A-Z]\\d){6}$"
+        }
+      },
+      {
+        "id": "ft8vg9wt",
+        "name": "make",
+        "type": "relation",
+        "system": false,
+        "required": true,
+        "unique": false,
+        "options": {
+          "collectionId": "acukq57u0ftx4qi",
+          "cascadeDelete": false,
+          "minSelect": null,
+          "maxSelect": 1,
+          "displayFields": []
+        }
+      },
+      {
+        "id": "zzghvliw",
+        "name": "model",
+        "type": "relation",
+        "system": false,
+        "required": false,
+        "unique": false,
+        "options": {
+          "collectionId": "msodycn6wvtgc3y",
+          "cascadeDelete": false,
+          "minSelect": null,
+          "maxSelect": 1,
+          "displayFields": []
+        }
+      },
+      {
+        "id": "fx7ygdwj",
+        "name": "year",
+        "type": "number",
+        "system": false,
+        "required": false,
+        "unique": true,
+        "options": {
+          "min": 1970,
+          "max": null
+        }
+      },
+      {
+        "id": "5fc2b7c6",
+        "name": "owner",
+        "type": "relation",
+        "system": false,
+        "required": true,
+        "unique": false,
+        "options": {
+          "collectionId": "ffjhg4gh7vctzf4",
+          "cascadeDelete": false,
+          "minSelect": null,
+          "maxSelect": 1,
+          "displayFields": []
+        }
+      },
+      {
+        "id": "46navudd",
+        "name": "bought",
+        "type": "date",
+        "system": false,
+        "required": false,
+        "unique": false,
+        "options": {
+          "min": "",
+          "max": ""
+        }
+      }
+    ],
+    "listRule": null,
+    "viewRule": null,
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
+    "options": {}
+  },
+  {
+    "id": "czebcr6884xkqx9",
+    "name": "carsView",
+    "type": "view",
+    "system": false,
+    "schema": [
+      {
+        "id": "dmdk0joe",
+        "name": "sku",
+        "type": "text",
+        "system": false,
+        "required": true,
+        "unique": true,
+        "options": {
+          "min": null,
+          "max": null,
+          "pattern": "^([A-Z]\\d){6}$"
+        }
+      },
+      {
+        "id": "fx7ygdwj",
+        "name": "year",
+        "type": "number",
+        "system": false,
+        "required": false,
+        "unique": true,
+        "options": {
+          "min": 1970,
+          "max": null
+        }
+      },
+      {
+        "id": "jpfp8ceh",
+        "name": "makeName",
+        "type": "text",
+        "system": false,
+        "required": true,
+        "unique": true,
+        "options": {
+          "min": 2,
+          "max": 50,
+          "pattern": ""
+        }
+      },
+      {
+        "id": "nzuwys7y",
+        "name": "modelName",
+        "type": "text",
+        "system": false,
+        "required": true,
+        "unique": false,
+        "options": {
+          "min": 1,
+          "max": 50,
+          "pattern": ""
+        }
+      },
+      {
+        "id": "uv4y51rf",
+        "name": "ownerFirstName",
+        "type": "text",
+        "system": false,
+        "required": true,
+        "unique": false,
+        "options": {
+          "min": 1,
+          "max": 50,
+          "pattern": ""
+        }
+      },
+      {
+        "id": "k85p7nu5",
+        "name": "ownerLastName",
+        "type": "text",
+        "system": false,
+        "required": true,
+        "unique": false,
+        "options": {
+          "min": 1,
+          "max": 50,
+          "pattern": ""
+        }
+      }
+    ],
+    "listRule": null,
+    "viewRule": null,
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
+    "options": {
+      "query": "SELECT\n    ca.id        as id,\n    ca.sku       as sku,\n    ca.year      as year,\n    ma.name      as makeName,\n    mo.name      as modelName,\n    ow.firstName as ownerFirstName,\n    ow.lastName  as ownerLastName\n  FROM cars ca\n  JOIN makes ma ON ca.make = ma.id\n  LEFT JOIN models mo ON ca.model = mo.id\n  JOIN employees ow ON ca.owner = ow.id"
+    }
+  }
+]

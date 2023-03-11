@@ -1,0 +1,26 @@
+@import 'the-new-css-reset';
+@import 'variables';
+
+html {
+  color: $color-text;
+  background: $color-background;
+  font-size: $font-size;
+  line-height: $line-height;
+  font-family: $font-family;
+}
+
+strong {
+  font-weight: 600;
+}
+
+p:not(:last-child) {
+  margin-bottom: 0.5em;
+}
+
+a {
+  text-decoration: underline;
+  transition: color 0.2s;
+  &:hover {
+    color: $color-success;
+  }
+}
