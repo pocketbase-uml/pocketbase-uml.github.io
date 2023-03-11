@@ -8,7 +8,7 @@
       >Ionut-Cristian Florescu</a
     >.
     <br />
-    PeekPocket is open source and will always be free, but its maintenance depends on your support.
+    PocketBaseUML is open source and will always be free, but its maintenance depends on your support.
   </p>
   <p>❤️🙏❤️</p>
   <p>
