@@ -1,7 +1,6 @@
 import { browser } from '$app/environment';
 import { draw } from 'nomnoml';
 import PocketBase, { Collection } from 'pocketbase';
-import { GENERIC_DIAGRAM_MARKUP_DIRECTIVES } from './config';
 import type { Settings } from './settings';
 import { spaces, stripBackslashes } from './utils';
 
@@ -59,7 +58,15 @@ export async function loadPocketbaseCollections(connection: Connection | undefin
   return pb.collections.getFullList();
 }
 
-const genericMarkupDirectives = Object.entries(GENERIC_DIAGRAM_MARKUP_DIRECTIVES)
+const genericMarkupDirectives = Object.entries({
+  bendSize: 0.1,
+  leading: 2,
+  font: '"Fira Code", monospace',
+  background: '#f8f9fa',
+  fill: '#fff',
+  stroke: '#45485a',
+  '.select': ''
+})
   .map(([key, value]) => `#${key}: ${value}`)
   .join('\n');
 
@@ -206,8 +213,8 @@ export function validateCollections(object: unknown) {
       algorithm: 'longest-path',
       direction: 'down',
       showAttributeFlags: false,
-      showSelectValues: false,
-      showSystemAttributes: false
+      showSystemAttributes: false,
+      showSelectValues: false
     });
   } finally {
     hiddenCanvas.remove();

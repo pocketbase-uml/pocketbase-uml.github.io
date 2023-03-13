@@ -10,15 +10,7 @@
     validateCollections,
     type Connection
   } from '$lib/diagram';
-  import {
-    algorithm,
-    ALGORITHMS,
-    direction,
-    DIRECTIONS,
-    showAttributeFlags,
-    showSelectValues,
-    showSystemAttributes
-  } from '$lib/settings';
+  import { ALGORITHMS, DIRECTIONS, settings } from '$lib/settings';
   import { absRoundedHalfDiff, constrain } from '$lib/utils';
   import { createQuery } from '@tanstack/svelte-query';
   import { decode } from 'js-base64';
@@ -76,13 +68,7 @@
 
   const fit = () => {
     const hiddenCanvas = document.createElement('canvas');
-    drawImage(hiddenCanvas, data, {
-      direction: $direction,
-      algorithm: $algorithm,
-      showSystemAttributes: $showSystemAttributes,
-      showAttributeFlags: $showAttributeFlags,
-      showSelectValues: $showSelectValues
-    });
+    drawImage(hiddenCanvas, data, $settings);
     const { width, height } = hiddenCanvas;
     const { clientWidth: viewWidth, clientHeight: viewHeight } = view;
     minZoom = Math.min(viewWidth / width, viewHeight / height);
@@ -98,18 +84,7 @@
       fit();
       neverDrawn = false;
     }
-    drawImage(
-      canvas,
-      data,
-      {
-        direction: $direction,
-        algorithm: $algorithm,
-        showSystemAttributes: $showSystemAttributes,
-        showAttributeFlags: $showAttributeFlags,
-        showSelectValues: $showSelectValues
-      },
-      zoom
-    );
+    drawImage(canvas, data, $settings, zoom);
   }
 
   const handlePointerDownOrEnter = (e: PointerEvent) => {
@@ -224,29 +199,29 @@
   <Settings on:dismiss={() => (settingsVisible = false)}>
     <RadioGroup
       title="Graph direction"
-      bind:value={$direction}
+      bind:value={$settings.direction}
       options={DIRECTIONS}
       on:change={handleSettingsChange}
     />
     <RadioGroup
       title="Graph algorithm"
-      bind:value={$algorithm}
+      bind:value={$settings.algorithm}
       options={ALGORITHMS}
       on:change={handleSettingsChange}
     />
     <Switch
       title="Show system attributes"
-      bind:value={$showSystemAttributes}
+      bind:value={$settings.showSystemAttributes}
       on:change={handleSettingsChange}
     />
     <Switch
       title="Show attribute flags"
-      bind:value={$showAttributeFlags}
+      bind:value={$settings.showAttributeFlags}
       on:change={handleSettingsChange}
     />
     <Switch
       title="Show select values"
-      bind:value={$showSelectValues}
+      bind:value={$settings.showSelectValues}
       on:change={handleSettingsChange}
     />
   </Settings>
@@ -257,22 +232,8 @@
   noData={!data}
   on:reload={refetch}
   on:fit={fit}
-  on:download={() =>
-    downloadPng(data, {
-      direction: $direction,
-      algorithm: $algorithm,
-      showSystemAttributes: $showSystemAttributes,
-      showAttributeFlags: $showAttributeFlags,
-      showSelectValues: $showSelectValues
-    })}
-  on:copy={() =>
-    copyPng(data, {
-      direction: $direction,
-      algorithm: $algorithm,
-      showSystemAttributes: $showSystemAttributes,
-      showAttributeFlags: $showAttributeFlags,
-      showSelectValues: $showSelectValues
-    })}
+  on:download={() => downloadPng(data, $settings)}
+  on:copy={() => copyPng(data, $settings)}
   on:settings={() => (settingsVisible = !settingsVisible)}
   on:close={() => (closing = true)}
 />
