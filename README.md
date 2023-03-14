@@ -4,7 +4,7 @@ A free, open-source UML diagram generator for PocketBase.
 
 ## Sponsor the project
 
-If you find this package useful, please consider ❤️[sponsoring my work](https://github.com/sponsors/icflorescu). Your sponsorship will help me dedicate more time to maintaining the project and will encourage me to add new features and fix existing bugs.
+If you find this package useful, please consider ❤️ [sponsoring my work](https://github.com/sponsors/icflorescu). Your sponsorship will help me dedicate more time to maintaining the project and will encourage me to add new features and fix existing bugs.
 
 ## Other means of support
 
