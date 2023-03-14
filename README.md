@@ -4,6 +4,12 @@ A free, open-source web application that generates UML diagrams based on PocketB
 
 [![PocketBaseUML](https://user-images.githubusercontent.com/581999/225126356-d074ceb2-5139-419b-b93d-c4a62e3e8585.png)](https://pocketbase-uml.github.io)
 
+## How to use
+
+PocketBaseUML is a web application that runs in your browser. You can access it online at [pocketbase-uml.github.io](https://pocketbase-uml.github.io) or run it locally on your computer with `npx pocketbase-uml@latest`.
+Due to security browser restrictions, the online application can only access PocketBase databases through HTTPS.
+If you want to access a local PocketBase databases through HTTP, you can either run the application locally or use a service such as [ngrok](https://ngrok.com) to expose your local server to the Internet.
+
 ## Sponsor the project
 
 If you find this package useful, please consider ❤️ [sponsoring my work](https://github.com/sponsors/icflorescu). Your sponsorship will help me dedicate more time to maintaining the project and will encourage me to add new features and fix existing bugs.
