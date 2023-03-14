@@ -2,6 +2,8 @@
 
 A free, open-source web application that generates UML diagrams based on PocketBase databases.
 
+[![PocketBaseUML](https://user-images.githubusercontent.com/581999/225125095-b584bbc2-5c4a-4006-9962-210678d93721.png)](https://pocketbase-uml.github.io)
+
 ## Sponsor the project
 
 If you find this package useful, please consider ❤️ [sponsoring my work](https://github.com/sponsors/icflorescu). Your sponsorship will help me dedicate more time to maintaining the project and will encourage me to add new features and fix existing bugs.
