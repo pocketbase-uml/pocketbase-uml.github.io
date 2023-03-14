@@ -31,7 +31,7 @@ jobs:
           cache: 'npm'
       - run: npm i
       - run: npm run build
-      - name: Upload artifact
+      - name: Upload pages artifact
         uses: actions/upload-pages-artifact@v1
         with:
           path: ./app
