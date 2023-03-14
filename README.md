@@ -40,5 +40,8 @@ Mentioning “PocketBaseUML” in your text would help me prioritize your messag
 
 The [MIT License](https://github.com/pocketbase-uml/pocketbase-uml.github.io/blob/master/LICENSE).
 
+[license-image]: http://img.shields.io/npm/l/pocketbase-uml.svg?style=flat-square
+[last-commit-image]: https://img.shields.io/github/last-commit/pocketbase-uml/pocketbase-uml.github.io?style=flat-square
+[language-image]: https://img.shields.io/github/languages/top/pocketbase-uml/pocketbase-uml.github.io?style=flat-square
 [repo-url]: https://github.com/pocketbase-uml/pocketbase-uml.github.io
 [license-url]: LICENSE
