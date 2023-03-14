@@ -12,7 +12,7 @@
 
 <PageMeta />
 <p class="description">
-  PocketBaseUML is a free, open-source tool for creating and inspecting PocketBase UML diagrams.
+  PocketBaseUML is a free, open-source UML diagram generator for PocketBase.
   <br />
   You can use it online at <a href="https://pocketbase-uml.github.io">pocketbase-uml.github.io</a>
   or run it locally as an <code>npm</code> package.

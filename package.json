@@ -1,7 +1,10 @@
 {
   "name": "pocketbase-uml",
   "version": "0.0.1",
-  "private": true,
+  "description": "A web application that generates UML diagrams based on PocketBase databases",
+  "repository": "pocketbase-uml/pocketbase-uml.github.io",
+  "homepage": "https://pocketbase-uml.github.io",
+  "license": "MIT",
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
