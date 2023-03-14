@@ -6,9 +6,8 @@ const config = {
   preprocess: vitePreprocess(),
   kit: {
     adapter: adapter({ pages: 'app', assets: 'app' }),
-    prerender: {
-      handleMissingId: 'ignore'
-    }
+    prerender: { handleMissingId: 'ignore' },
+    appDir: 'a'
   }
 };
 
