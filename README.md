@@ -11,8 +11,14 @@ A free, open-source web application that generates UML diagrams from PocketBase 
 
 ## How to use
 
-PocketBaseUML is a web application that runs in your browser. You can access it online at [pocketbase-uml.github.io](https://pocketbase-uml.github.io) or run it locally on your computer with `npx pocketbase-uml@latest`.
-Due to security browser restrictions, the online application can only access PocketBase databases through HTTPS.
+PocketBaseUML is a web application that runs in your browser.  
+You can access it online at [pocketbase-uml.github.io](https://pocketbase-uml.github.io) or run it locally on your computer with:
+
+```sh
+npx pocketbase-uml@latest
+```
+
+Due to security browser restrictions, the online application can only access PocketBase databases through HTTPS.  
 If you want to access a local PocketBase databases through HTTP, you can either run the application locally or use a service such as [ngrok](https://ngrok.com) to expose your local server to the Internet.
 
 ## Sponsor the project
