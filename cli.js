@@ -6,13 +6,15 @@ import handler from 'serve-handler';
 
 console.log(figlet.textSync('PocketBaseUML', { font: 'Big' }));
 
-let port;
-try {
-  port = Number.parseInt(process.argv[2], 10);
-  if (Number.isNaN(port)) throw new Error();
-} catch (error) {
-  console.log('Usage: pocketbase-uml <port>\n');
-  process.exit(1);
+let port = 9000;
+if (process.argv.length > 2) {
+  try {
+    port = Number.parseInt(process.argv[2], 10);
+    if (Number.isNaN(port)) throw new Error();
+  } catch (error) {
+    console.log('Usage: pocketbase-uml [port]\n');
+    process.exit(1);
+  }
 }
 
 http
