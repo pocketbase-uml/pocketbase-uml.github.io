@@ -8,5 +8,6 @@ export const LOCAL_STORAGE_SETTINGS_KEY = `${LOCAL_STORAGE_KEY_PREFIX}.settings`
 
 export const MAX_ZOOM = 2;
 
+export const MAX_VISIBLE_NOTIFICATIONS = 5;
 export const NOTIFICATION_TIMEOUT = 3000;
 export const PUBLIC_URL = 'https://pocketbase-uml.github.io';
