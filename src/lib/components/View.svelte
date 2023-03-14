@@ -10,6 +10,7 @@
     validateCollections,
     type Connection
   } from '$lib/diagram';
+  import { addNotification } from '$lib/notifications';
   import { ALGORITHMS, DIRECTIONS, settings } from '$lib/settings';
   import { absRoundedHalfDiff, constrain } from '$lib/utils';
   import { createQuery } from '@tanstack/svelte-query';
@@ -19,6 +20,7 @@
   import { onDestroy } from 'svelte';
   import { fade } from 'svelte/transition';
   import ConfirmationModal from './ConfirmationModal.svelte';
+  import Notifier from './Notifier.svelte';
   import RadioGroup from './RadioGroup.svelte';
   import Settings from './Settings.svelte';
   import Switch from './Switch.svelte';
@@ -193,6 +195,11 @@
   const handleSettingsChange = () => {
     neverDrawn = true;
   };
+
+  const handleCopy = () => {
+    copyPng(data, $settings);
+    addNotification('Image copied to clipboard');
+  };
 </script>
 
 {#if settingsVisible}
@@ -233,7 +240,7 @@
   on:reload={refetch}
   on:fit={fit}
   on:download={() => downloadPng(data, $settings)}
-  on:copy={() => copyPng(data, $settings)}
+  on:copy={handleCopy}
   on:settings={() => (settingsVisible = !settingsVisible)}
   on:close={() => (closing = true)}
 />
@@ -258,6 +265,7 @@
     />
     <Zoom value={zoom} />
   {/if}
+  <Notifier />
 </div>
 {#if error && !closing}
   <ConfirmationModal
