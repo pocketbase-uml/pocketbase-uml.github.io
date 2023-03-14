@@ -1,6 +1,6 @@
 # PocketBaseUML
 
-A free, open-source UML diagram generator for PocketBase.
+A free, open-source web application that generates UML diagrams based on PocketBase databases.
 
 ## Sponsor the project
 
