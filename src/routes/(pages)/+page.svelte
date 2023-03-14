@@ -1,6 +1,7 @@
 <script lang="ts">
   import Button from '$lib/components/Button.svelte';
   import PageMeta from '$lib/components/PageMeta.svelte';
+  import Terminal from '$lib/components/Terminal.svelte';
   import example from '$lib/example.json';
   import hero from '$lib/images/hero.png';
   import { encode } from 'js-base64';
@@ -10,6 +11,12 @@
 </script>
 
 <PageMeta />
+<p class="description">
+  PocketBaseUML is a free, open-source tool for creating and inspecting PocketBase UML diagrams.
+  <br />
+  You can use it online at <a href="https://pocketbase-uml.github.io">pocketbase-uml.github.io</a>
+  or run it locally as an <code>npm</code> package.
+</p>
 <div class="hero" in:fade>
   {#if buttonsVisible}
     <div class="buttons" in:scale>
@@ -24,9 +31,38 @@
   {/if}
   <img class="picture" src={hero} alt="PocketBaseUML" in:blur={{ delay: 100 }} />
 </div>
+<div class="npx">
+  <p>...or run it locally with:</p>
+  <Terminal command="npx pocketbase-uml@latest" />
+</div>
 
 <style lang="scss">
   @import 'src/lib/style/variables';
+
+  p {
+    text-align: center;
+  }
+
+  code {
+    font-family: $font-family-monospace;
+    font-size: $font-size-small;
+  }
+
+  .description,
+  .npx {
+    max-width: calc(100vw - 2em);
+    margin: 0 auto;
+  }
+
+  .description {
+    margin-bottom: 2em;
+
+    code {
+      border: 1px solid $color-shade-3;
+      border-radius: $border-radius;
+      padding: 0 0.25em;
+    }
+  }
 
   .hero {
     aspect-ratio: 10 / 6;
@@ -65,5 +101,14 @@
     gap: 1.875em;
     padding: 1em;
     z-index: 1;
+  }
+
+  .npx {
+    margin-top: 2em;
+    width: 320px;
+
+    p {
+      margin-bottom: 1.5em;
+    }
   }
 </style>
