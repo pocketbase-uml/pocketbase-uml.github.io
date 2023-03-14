@@ -1,4 +1,5 @@
 import { writable } from 'svelte/store';
+import { NOTIFICATION_TIMEOUT } from './config';
 
 export type Notification = {
   id: number;
@@ -12,5 +13,5 @@ export const addNotification = (message: string) => {
   notifications.update((n) => [{ id, message }, ...n]);
   setTimeout(() => {
     notifications.update((n) => n.filter((n) => n.id !== id));
-  }, 3000);
+  }, NOTIFICATION_TIMEOUT);
 };
