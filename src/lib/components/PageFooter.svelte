@@ -8,7 +8,10 @@
       >Ionut-Cristian Florescu</a
     >.
     <br />
-    PocketBaseUML is open source and will always be free, but its maintenance depends on your support.
+    PocketBaseUML
+    <a href="https://github.com/pocketbase-uml/pocketbase-uml.github.io" target="_blank"
+      >is open source</a
+    > and will always be free, but its maintenance depends on your support.
   </p>
   <p>❤️🙏❤️</p>
   <p>
