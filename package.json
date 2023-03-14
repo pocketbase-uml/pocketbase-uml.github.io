@@ -2,9 +2,24 @@
   "name": "pocketbase-uml",
   "version": "0.0.1",
   "description": "A web application that generates UML diagrams based on PocketBase databases",
+  "keywords": [
+    "pocketbase",
+    "uml",
+    "diagrams",
+    "database",
+    "model",
+    "data",
+    "schema",
+    "data model"
+  ],
   "repository": "pocketbase-uml/pocketbase-uml.github.io",
   "homepage": "https://pocketbase-uml.github.io",
   "license": "MIT",
+  "author": {
+    "name": "Ionut-Cristian Florescu",
+    "email": "ionut.florescu@gmail.com",
+    "url": "https://github.com/icflorescu"
+  },
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
