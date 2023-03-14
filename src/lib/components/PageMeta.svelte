@@ -1,6 +1,8 @@
 <script lang="ts">
+  const image = 'https://pocketbase-uml.github.io/pocketbase-uml.png';
   export let title: string | undefined = undefined;
-  export let description = 'The PocketBase visual perspective';
+  export let description =
+    'The PocketBase visual perspective: a free, open-source web application that generates UML diagrams from PocketBase databases';
   export let keywords =
     'pocketbase, uml, diagram, database, schema, model, visualization, generator, free, open-source';
 
@@ -18,4 +20,12 @@
   <meta name="author" content="Ionut-Cristian Florescu" />
   <meta name="twitter:creator" content="@icflorescu" />
   <meta property="og:site_name" content="PocketBaseUML" />
+  <meta property="og:image" content={image} />
+  <meta
+    property="og:image:alt"
+    content="PocketBaseUML is a free, open-source web application that generates UML diagrams from PocketBase databases"
+  />
+  <meta name="twitter:image" content={image} />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:url" content="https://pocketbase-uml.github.io" />
 </svelte:head>
