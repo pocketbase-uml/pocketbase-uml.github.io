@@ -1,5 +1,10 @@
 # PocketBaseUML
 
+![Publish NPM & deploy docs workflow](https://github.com/pocketbase-uml/pocketbase-uml.github.io/actions/workflows/publish-and-deploy.yml/badge.svg)  
+[![License][license-image]][license-url]
+[![Last commit][last-commit-image]][repo-url]
+[![Language][language-image]][repo-url]  
+
 A free, open-source web application that generates UML diagrams based on PocketBase databases.
 
 [![PocketBaseUML](https://user-images.githubusercontent.com/581999/225126356-d074ceb2-5139-419b-b93d-c4a62e3e8585.png)](https://pocketbase-uml.github.io)
@@ -34,3 +39,6 @@ Mentioning “PocketBaseUML” in your text would help me prioritize your messag
 ## License
 
 The [MIT License](https://github.com/pocketbase-uml/pocketbase-uml.github.io/blob/master/LICENSE).
+
+[repo-url]: https://github.com/pocketbase-uml/pocketbase-uml.github.io
+[license-url]: LICENSE
