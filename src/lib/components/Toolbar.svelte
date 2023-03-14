@@ -11,6 +11,7 @@
   import IconLogoDrawn from './icons/IconLogoDrawn.svelte';
   import IconRefresh from './icons/IconRefresh.svelte';
   import IconSettings from './icons/IconSettings.svelte';
+  import IconShare from './icons/IconShare.svelte';
 
   let root: HTMLDivElement;
 
@@ -23,6 +24,7 @@
     fit: never;
     download: never;
     copy: never;
+    share: never;
     settings: never;
     close: never;
   }>();
@@ -83,6 +85,15 @@
       on:click={() => dispatch('copy')}
     >
       <IconCopy />
+    </ActionButton>
+    <ActionButton
+      title={cannotCopy
+        ? "Creating shareable links doesn't work in your browser"
+        : 'Create shareable link'}
+      disabled={noData || cannotCopy}
+      on:click={() => dispatch('share')}
+    >
+      <IconShare />
     </ActionButton>
     <ActionButton title="Settings" on:click={() => dispatch('settings')}>
       <IconSettings />

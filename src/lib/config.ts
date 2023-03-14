@@ -7,3 +7,5 @@ export const LOCAL_STORAGE_CONNECTION_KEY = `${LOCAL_STORAGE_KEY_PREFIX}.connect
 export const LOCAL_STORAGE_SETTINGS_KEY = `${LOCAL_STORAGE_KEY_PREFIX}.settings`;
 
 export const MAX_ZOOM = 2;
+
+export const PUBLIC_URL = 'https://pocketbase-uml.github.io';

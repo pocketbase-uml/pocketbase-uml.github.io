@@ -1,7 +1,7 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
   import Toolbar from '$lib/components/Toolbar.svelte';
-  import { LOCAL_STORAGE_CONNECTION_KEY, MAX_ZOOM } from '$lib/config';
+  import { LOCAL_STORAGE_CONNECTION_KEY, MAX_ZOOM, PUBLIC_URL } from '$lib/config';
   import {
     copyPng,
     downloadPng,
@@ -14,7 +14,7 @@
   import { ALGORITHMS, DIRECTIONS, settings } from '$lib/settings';
   import { absRoundedHalfDiff, constrain } from '$lib/utils';
   import { createQuery } from '@tanstack/svelte-query';
-  import { decode } from 'js-base64';
+  import { decode, encode } from 'js-base64';
   import throttle from 'lodash.throttle';
   import type { Collection } from 'pocketbase';
   import { onDestroy } from 'svelte';
@@ -200,6 +200,11 @@
     copyPng(data, $settings);
     addNotification('Image copied to clipboard');
   };
+
+  const handleShare = () => {
+    navigator.clipboard.writeText(`${PUBLIC_URL}/view#${encode(JSON.stringify(data))}`);
+    addNotification('Shareable link copied to clipboard');
+  };
 </script>
 
 {#if settingsVisible}
@@ -241,6 +246,7 @@
   on:fit={fit}
   on:download={() => downloadPng(data, $settings)}
   on:copy={handleCopy}
+  on:share={handleShare}
   on:settings={() => (settingsVisible = !settingsVisible)}
   on:close={() => (closing = true)}
 />
