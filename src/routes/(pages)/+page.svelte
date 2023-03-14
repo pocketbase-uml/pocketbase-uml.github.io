@@ -54,9 +54,6 @@
     object-position: left;
     transition: filter 0.5s;
     filter: opacity(0.7);
-    .buttons:hover ~ & {
-      filter: opacity(0.5) blur(2px);
-    }
   }
 
   .buttons {
