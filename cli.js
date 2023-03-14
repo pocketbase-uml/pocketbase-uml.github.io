@@ -2,6 +2,7 @@
 
 import figlet from 'figlet';
 import http from 'node:http';
+import { fileURLToPath } from 'node:url';
 import handler from 'serve-handler';
 
 console.log(figlet.textSync('PocketBaseUML', { font: 'Big' }));
@@ -19,7 +20,10 @@ if (process.argv.length > 2) {
 
 http
   .createServer((request, response) => {
-    return handler(request, response, { public: 'app', etag: true });
+    return handler(request, response, {
+      public: `${fileURLToPath(new URL('.', import.meta.url))}app`,
+      etag: true
+    });
   })
   .listen(port, () => {
     console.log(`Running at http://localhost:${port}, press Ctrl+C to stop...`);
