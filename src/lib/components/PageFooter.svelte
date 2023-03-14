@@ -8,10 +8,14 @@
       >Ionut-Cristian Florescu</a
     >.
     <br />
-    PocketBaseUML
+    PocketBaseUML is
     <a href="https://github.com/pocketbase-uml/pocketbase-uml.github.io" target="_blank"
-      >is open source</a
-    > and will always be free, but its maintenance depends on your support.
+      >open source</a
+    >
+    and will always be free, but its maintenance
+    <a href="https://github.com/sponsors/icflorescu" target="_blank" rel="noreferrer"
+      >depends on your support</a
+    >.
   </p>
   <p>❤️🙏❤️</p>
   <p>
