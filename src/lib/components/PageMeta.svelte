@@ -1,7 +1,8 @@
 <script lang="ts">
   export let title: string | undefined = undefined;
   export let description = 'The PocketBase visual perspective';
-  export let keywords = 'pocketbase, uml, diagram, database, schema, visual';
+  export let keywords =
+    'pocketbase, uml, diagram, database, schema, model, visualization, generator, free, open-source';
 
   const titleValue = `${title ? `${title} | ` : ''}PocketBaseUML`;
 </script>

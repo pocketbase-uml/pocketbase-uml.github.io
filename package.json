@@ -10,6 +10,7 @@
     "model",
     "data",
     "schema",
+    "visualization",
     "data model"
   ],
   "repository": "pocketbase-uml/pocketbase-uml.github.io",
