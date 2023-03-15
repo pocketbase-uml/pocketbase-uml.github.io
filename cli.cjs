@@ -2,21 +2,18 @@
 
 const http = require('node:http');
 const { join } = require('node:path');
+const { program } = require('commander');
 const figlet = require('figlet');
 const handler = require('serve-handler');
+const { version } = require('./package.json');
+
+program.version(version).option('-p, --port <port>', 'port to run on', '9000');
+program.parse();
+const options = program.opts();
+
+const { port } = options;
 
 console.log(figlet.textSync('PocketBaseUML', { font: 'Big' }));
-
-let port = 9000;
-if (process.argv.length > 2) {
-  try {
-    port = Number.parseInt(process.argv[2], 10);
-    if (Number.isNaN(port)) throw new Error();
-  } catch (error) {
-    console.log('Usage: pocketbase-uml [port]\n');
-    process.exit(1);
-  }
-}
 
 http
   .createServer((request, response) => {
@@ -26,5 +23,7 @@ http
     });
   })
   .listen(port, () => {
-    console.log(`Running at http://localhost:${port}, press Ctrl+C to stop...`);
+    console.log(
+      `PocketBaseUML v${version} listening at http://localhost:${port}, press Ctrl+C to stop...`
+    );
   });

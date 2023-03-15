@@ -31,7 +31,7 @@
     "dev": "vite dev",
     "build": "vite build",
     "preview": "vite preview",
-    "start": "node cli.cjs 3000",
+    "start": "node cli.cjs",
     "test": "playwright test",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
@@ -71,6 +71,7 @@
   },
   "type": "module",
   "dependencies": {
+    "commander": "^10.0.0",
     "figlet": "^1.5.2",
     "serve-handler": "^6.1.5"
   }
