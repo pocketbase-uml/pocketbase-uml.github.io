@@ -58,7 +58,7 @@
     "pocketbase": "^0.12.1",
     "prettier": "^2.8.4",
     "prettier-plugin-svelte": "^2.9.0",
-    "sass": "^1.59.2",
+    "sass": "^1.59.3",
     "svelte": "^3.56.0",
     "svelte-check": "^3.1.4",
     "svelte-local-storage-store": "^0.4.0",
