@@ -1,6 +1,6 @@
 import { browser } from '$app/environment';
 import { draw } from 'nomnoml';
-import PocketBase, { Collection } from 'pocketbase';
+import PocketBase, { type Collection } from 'pocketbase';
 import type { Settings } from './settings';
 import { spaces, stripBackslashes } from './utils';
 
