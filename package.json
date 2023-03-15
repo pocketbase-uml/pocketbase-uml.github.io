@@ -30,7 +30,8 @@
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
-    "start": "node cli.js 3000",
+    "preview": "vite preview",
+    "start": "node cli.cjs 3000",
     "test": "playwright test",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
@@ -39,7 +40,7 @@
     "format": "prettier --plugin-search-dir . --write ."
   },
   "bin": {
-    "pocketbase-uml": "./cli.js"
+    "pocketbase-uml": "./cli.cjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.31.2",

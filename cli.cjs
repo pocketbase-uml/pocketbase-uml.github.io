@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
-import figlet from 'figlet';
-import http from 'node:http';
-import { fileURLToPath } from 'node:url';
-import handler from 'serve-handler';
+const http = require('node:http');
+const { join } = require('node:path');
+const figlet = require('figlet');
+const handler = require('serve-handler');
 
 console.log(figlet.textSync('PocketBaseUML', { font: 'Big' }));
 
@@ -21,7 +21,7 @@ if (process.argv.length > 2) {
 http
   .createServer((request, response) => {
     return handler(request, response, {
-      public: `${fileURLToPath(new URL('.', import.meta.url))}app`,
+      public: join(__dirname, 'app'),
       etag: true
     });
   })
