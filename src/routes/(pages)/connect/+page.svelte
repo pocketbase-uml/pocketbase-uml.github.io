@@ -1,5 +1,6 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
+  import { log } from '$lib/analytics';
   import Card from '$lib/components/Card.svelte';
   import NotificationModal from '$lib/components/NotificationModal.svelte';
   import PageMeta from '$lib/components/PageMeta.svelte';
@@ -17,6 +18,8 @@
   let securityMismatchError = false;
 
   onMount(() => {
+    log();
+
     const connection = localStorage.getItem(LOCAL_STORAGE_CONNECTION_KEY);
     secure = window.location.protocol === 'https:';
     try {
