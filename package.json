@@ -1,6 +1,6 @@
 {
   "name": "pocketbase-uml",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "description": "A web application that generates UML diagrams based on PocketBase databases",
   "keywords": [
     "pocketbase",
@@ -45,7 +45,7 @@
   "devDependencies": {
     "@playwright/test": "^1.31.2",
     "@sveltejs/adapter-static": "^2.0.1",
-    "@sveltejs/kit": "^1.11.0",
+    "@sveltejs/kit": "^1.12.0",
     "@tanstack/svelte-query": "^4.26.1",
     "@types/lodash.throttle": "^4.1.7",
     "@typescript-eslint/eslint-plugin": "^5.55.0",
@@ -60,14 +60,14 @@
     "prettier": "^2.8.4",
     "prettier-plugin-svelte": "^2.9.0",
     "sass": "^1.59.3",
-    "svelte": "^3.56.0",
+    "svelte": "^3.57.0",
     "svelte-check": "^3.1.4",
     "svelte-local-storage-store": "^0.4.0",
     "the-new-css-reset": "^1.8.4",
     "tslib": "^2.5.0",
-    "typescript": "^4.9.5",
-    "vite": "^4.1.4",
-    "vitest": "^0.29.2"
+    "typescript": "^5.0.2",
+    "vite": "^4.2.0",
+    "vitest": "^0.29.3"
   },
   "type": "module",
   "dependencies": {
