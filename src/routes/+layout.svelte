@@ -1,5 +1,16 @@
 <script lang="ts">
   import '$lib/style/global.scss';
+
+  import { navigating } from '$app/stores';
+  import { log } from '$lib/analytics';
+  import { onMount } from 'svelte';
+
+  onMount(() => {
+    log(location.pathname);
+  });
+
+  $: if ($navigating && $navigating.to && $navigating.to.url.pathname !== location.pathname)
+    log($navigating.to.url.pathname);
 </script>
 
 <svelte:head>

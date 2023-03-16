@@ -1,17 +1,13 @@
 <script lang="ts">
-  import { log } from '$lib/analytics';
   import Button from '$lib/components/Button.svelte';
   import PageMeta from '$lib/components/PageMeta.svelte';
   import Terminal from '$lib/components/Terminal.svelte';
   import example from '$lib/example.json';
   import hero from '$lib/images/hero.png';
   import { encode } from 'js-base64';
-  import { onMount } from 'svelte';
   import { blur, fade, scale } from 'svelte/transition';
 
   let buttonsVisible = true;
-
-  onMount(log);
 </script>
 
 <PageMeta />

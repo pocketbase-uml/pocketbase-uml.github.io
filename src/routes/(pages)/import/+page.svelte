@@ -1,6 +1,5 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
-  import { log } from '$lib/analytics';
   import Button from '$lib/components/Button.svelte';
   import Card from '$lib/components/Card.svelte';
   import NotificationModal from '$lib/components/NotificationModal.svelte';
@@ -9,14 +8,11 @@
   import TextareaInput from '$lib/components/TextareaInput.svelte';
   import { validateCollections } from '$lib/diagram';
   import { encode } from 'js-base64';
-  import { onMount } from 'svelte';
   import { fade } from 'svelte/transition';
 
   let fileInput: HTMLInputElement;
   let code = '';
   let error = false;
-
-  onMount(log);
 
   const handleFileInputChange = (e: Event) => {
     const file = (e.target as HTMLInputElement).files?.[0];
