@@ -9,7 +9,7 @@
 
 A free, open-source web application that generates UML diagrams from PocketBase databases.
 
-[![PocketBaseUML](https://user-images.githubusercontent.com/581999/225126356-d074ceb2-5139-419b-b93d-c4a62e3e8585.png)](https://pocketbase-uml.github.io)
+[![PocketBaseUML](https://user-images.githubusercontent.com/581999/226114639-f043c845-edde-4b8b-b89c-d618bb4521bd.png)](https://pocketbase-uml.github.io)
 
 ## How to use
 
