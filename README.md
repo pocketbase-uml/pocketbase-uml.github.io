@@ -2,7 +2,9 @@
 
 ![Publish NPM & deploy docs workflow](https://github.com/pocketbase-uml/pocketbase-uml.github.io/actions/workflows/publish-and-deploy.yml/badge.svg)  
 [![License][license-image]][license-url]
+[![NPM version][npm-image]][npm-url]
 [![Last commit][last-commit-image]][repo-url]
+[![Downloads][downloads-image]][npm-url]
 [![Language][language-image]][repo-url]  
 
 A free, open-source web application that generates UML diagrams from PocketBase databases.
@@ -47,7 +49,10 @@ Mentioning “PocketBaseUML” in your text would help me prioritize your messag
 The [MIT License](https://github.com/pocketbase-uml/pocketbase-uml.github.io/blob/master/LICENSE).
 
 [license-image]: http://img.shields.io/npm/l/pocketbase-uml.svg?style=flat-square
+[npm-image]: https://img.shields.io/npm/v/pocketbase-uml.svg?style=flat-square
 [last-commit-image]: https://img.shields.io/github/last-commit/pocketbase-uml/pocketbase-uml.github.io?style=flat-square
 [language-image]: https://img.shields.io/github/languages/top/pocketbase-uml/pocketbase-uml.github.io?style=flat-square
+[downloads-image]: http://img.shields.io/npm/dm/pocketbase-uml.svg?style=flat-square
+[npm-url]: https://npmjs.org/package/pocketbase-uml
 [repo-url]: https://github.com/pocketbase-uml/pocketbase-uml.github.io
 [license-url]: LICENSE
