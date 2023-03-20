@@ -57,7 +57,7 @@
     "lodash.throttle": "^4.1.1",
     "nomnoml": "skanaar/nomnoml#rewrite-grammar",
     "pocketbase": "^0.12.1",
-    "prettier": "^2.8.4",
+    "prettier": "^2.8.5",
     "prettier-plugin-svelte": "^2.9.0",
     "sass": "^1.59.3",
     "svelte": "^3.57.0",
@@ -66,8 +66,8 @@
     "the-new-css-reset": "^1.8.4",
     "tslib": "^2.5.0",
     "typescript": "^5.0.2",
-    "vite": "^4.2.0",
-    "vitest": "^0.29.3"
+    "vite": "^4.2.1",
+    "vitest": "^0.29.5"
   },
   "type": "module",
   "dependencies": {
