@@ -2,6 +2,7 @@
   import Button from '$lib/components/Button.svelte';
   import PageMeta from '$lib/components/PageMeta.svelte';
   import Terminal from '$lib/components/Terminal.svelte';
+  import { PUBLIC_URL } from '$lib/config';
   import example from '$lib/example.json';
   import hero from '$lib/images/hero.png';
   import { encode } from 'js-base64';
@@ -14,7 +15,7 @@
 <p class="description">
   PocketBaseUML is a free, open-source UML diagram generator for PocketBase.
   <br />
-  You can use it online at <a href="https://pocketbase-uml.github.io">pocketbase-uml.github.io</a>
+  You can use it online at <a href={PUBLIC_URL}>pocketbase-uml.github.io</a>
   or run it locally as an <code>npm</code> package.
 </p>
 <div class="hero" in:fade>

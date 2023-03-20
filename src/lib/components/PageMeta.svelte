@@ -1,5 +1,7 @@
 <script lang="ts">
-  const image = 'https://pocketbase-uml.github.io/pocketbase-uml.png';
+  import { PUBLIC_URL } from '$lib/config';
+
+  const image = `${PUBLIC_URL}/pocketbase-uml.png`;
   export let title: string | undefined = undefined;
   export let description =
     'The PocketBase visual perspective: a free, open-source web application that generates UML diagrams from PocketBase databases';
@@ -27,5 +29,5 @@
   />
   <meta name="twitter:image" content={image} />
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:url" content="https://pocketbase-uml.github.io" />
+  <meta name="twitter:url" content={PUBLIC_URL} />
 </svelte:head>

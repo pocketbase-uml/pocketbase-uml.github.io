@@ -1,28 +1,21 @@
 <script lang="ts">
+  import { AUTHOR_URL, REPO_URL, SPONSORS_URL } from '$lib/config';
   import { fade } from 'svelte/transition';
 </script>
 
 <footer transition:fade>
   <p>
-    Built by <a href="https://github.com/icflorescu" target="_blank" rel="noreferrer"
-      >Ionut-Cristian Florescu</a
-    >.
+    Built by <a href={AUTHOR_URL} target="_blank" rel="noreferrer">Ionut-Cristian Florescu</a>.
     <br />
     PocketBaseUML is
-    <a href="https://github.com/pocketbase-uml/pocketbase-uml.github.io" target="_blank"
-      >open source</a
-    >
+    <a href={REPO_URL} target="_blank">open source</a>
     and will always be free, but its maintenance
-    <a href="https://github.com/sponsors/icflorescu" target="_blank" rel="noreferrer"
-      >depends on your support</a
-    >.
+    <a href={SPONSORS_URL} target="_blank" rel="noreferrer">depends on your support</a>.
   </p>
   <p>❤️🙏❤️</p>
   <p>
     Please
-    <a href="https://github.com/sponsors/icflorescu" target="_blank" rel="noreferrer"
-      >sponsor my work</a
-    >
+    <a href={SPONSORS_URL} target="_blank" rel="noreferrer">sponsor my work</a>
     if you find it useful!
   </p>
 </footer>

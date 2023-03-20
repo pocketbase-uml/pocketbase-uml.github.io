@@ -1,6 +1,7 @@
 <script lang="ts">
   import { fade } from 'svelte/transition';
   import IconLogoDrawn from './icons/IconLogoDrawn.svelte';
+  import RepoBadge from './RepoBadge.svelte';
 </script>
 
 <header transition:fade>
@@ -11,6 +12,7 @@
     </h1>
     <p>The PocketBase visual perspective</p>
   </a>
+  <RepoBadge />
 </header>
 
 <style lang="scss">
