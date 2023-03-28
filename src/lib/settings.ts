@@ -5,7 +5,7 @@ export type Settings = {
   direction: 'down' | 'right';
   algorithm: 'longest-path' | 'tight-tree';
   showSystemAttributes: boolean;
-  showAttributeFlags: boolean;
+  markRequiredAttributes: boolean;
   showSelectValues: boolean;
 };
 
@@ -13,7 +13,7 @@ export const defaultSettings: Settings = {
   algorithm: 'longest-path',
   direction: 'down',
   showSystemAttributes: false,
-  showAttributeFlags: true,
+  markRequiredAttributes: true,
   showSelectValues: true
 };
 

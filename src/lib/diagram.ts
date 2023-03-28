@@ -2,7 +2,7 @@ import { browser } from '$app/environment';
 import { draw } from 'nomnoml';
 import PocketBase, { type Collection } from 'pocketbase';
 import type { Settings } from './settings';
-import { spaces, stripBackslashes } from './utils';
+import { sanitizeId, spaces, stripBackslashes } from './utils';
 
 export type Connection = {
   url: string;
@@ -24,12 +24,12 @@ type Attribute = {
   name: string;
   type: string;
   required: boolean;
-  unique: boolean;
   options: AttributeOptions;
   isRelation: boolean;
 };
 
 type Entity = {
+  id: string;
   name: string;
   attributes: Attribute[];
   isView: boolean;
@@ -42,12 +42,12 @@ type Relation = {
 };
 
 const viewSystemAttributes = [
-  { name: 'id', type: 'string', required: false, unique: true, isRelation: false, options: {} }
+  { name: 'id', type: 'string', required: false, isRelation: false, options: {} }
 ];
 
 const collectionSystemAttributes = viewSystemAttributes.concat([
-  { name: 'created', type: 'date', required: false, unique: false, isRelation: false, options: {} },
-  { name: 'updated', type: 'date', required: false, unique: false, isRelation: false, options: {} }
+  { name: 'created', type: 'date', required: false, isRelation: false, options: {} },
+  { name: 'updated', type: 'date', required: false, isRelation: false, options: {} }
 ]);
 
 export async function loadPocketbaseCollections(connection: Connection | undefined) {
@@ -72,44 +72,43 @@ const genericMarkupDirectives = Object.entries({
 
 export function generateMarkup(
   collections: Collection[],
-  { direction, algorithm, showSystemAttributes, showAttributeFlags, showSelectValues }: Settings
+  { direction, algorithm, showSystemAttributes, markRequiredAttributes, showSelectValues }: Settings
 ) {
   const entities: Record<string, Entity> = Object.fromEntries(
-    collections.map(({ id, name, schema, isView }) => {
+    collections.map(({ id, name, schema, $isView }) => {
       let attributes: Attribute[] = [
         ...(showSystemAttributes
-          ? isView
+          ? $isView
             ? viewSystemAttributes
             : collectionSystemAttributes
           : [])
       ];
       attributes = attributes.concat(
-        schema.map(({ name, type, options, required, unique }) => ({
+        schema.map(({ name, type, options, required }) => ({
           name,
           type,
           options: options as AttributeOptions,
           required,
-          unique,
           isRelation: type === 'relation'
         }))
       );
 
-      return [id, { name, attributes, isView }];
+      return [id, { id: sanitizeId(id), name, attributes, isView: $isView }];
     })
   );
 
   const entityValues = Object.values(entities);
 
   const relations: Relation[] = [];
-  for (const { name, attributes } of entityValues) {
+  for (const { id, attributes } of entityValues) {
     for (const attribute of attributes) {
       if (!attribute.isRelation) continue;
       const { collectionId, cascadeDelete } = attribute.options;
       const to = entities[collectionId as string].name;
       attribute.type = to;
       relations.push({
-        from: name,
-        to,
+        from: sanitizeId(id),
+        to: sanitizeId(collectionId),
         type: cascadeDelete ? 'composition' : 'aggregation'
       });
     }
@@ -117,8 +116,8 @@ export function generateMarkup(
 
   let result = `${genericMarkupDirectives}\n#ranker: ${algorithm}\n#direction: ${direction}\n\n`;
 
-  for (const { name, attributes, isView } of entityValues) {
-    result += `[<collection id=${name}>`;
+  for (const { id, name, attributes, isView } of entityValues) {
+    result += `[<collection id=${id}>`;
     if (isView) result += '«view»;';
     result += name;
     if (attributes.length) {
@@ -137,20 +136,15 @@ export function generateMarkup(
           return s;
         }
       );
-      const attrFlagStrings = attributes.map(({ required, unique }) => {
-        if (!showAttributeFlags) return '';
-        let s = '';
-        if (required) s += 'R';
-        if (required && unique) s += ' ';
-        if (unique) s += 'U';
-        return s;
-      });
+      const requiredFlagStrings = markRequiredAttributes
+        ? attributes.map(({ required }) => (required ? '*' : ''))
+        : Array(attributes.length).fill('');
 
       const maxAttrNameLength = Math.max(...attrNames.map((s) => s.length));
       const maxAttrTypeStringLength = Math.max(
         ...attrTypeStrings.map((s) => stripBackslashes(s).length)
       );
-      const maxAttrFlagStringLength = Math.max(...attrFlagStrings.map((s) => s.length));
+      const maxRequiredFlagStringLength = Math.max(...requiredFlagStrings.map((s) => s.length));
 
       for (let i = 0; i < attributes.length; i++) {
         if (i > 0) {
@@ -159,15 +153,15 @@ export function generateMarkup(
         }
         const attrName = attrNames[i];
         const attrTypeString = attrTypeStrings[i];
-        const attrFlagString = attrFlagStrings[i];
+        const requiredFlagString = requiredFlagStrings[i];
         result += `${attrName}: ${spaces(maxAttrNameLength - attrName.length)}${attrTypeString}`;
-        if (attrFlagString) {
+        if (requiredFlagString) {
           result += ` ${spaces(
             maxAttrTypeStringLength +
-              maxAttrFlagStringLength -
+              maxRequiredFlagStringLength -
               stripBackslashes(attrTypeString).length -
-              attrFlagString.length
-          )}${attrFlagString}`;
+              requiredFlagString.length
+          )}${requiredFlagString}`;
         }
       }
     }
@@ -212,7 +206,7 @@ export function validateCollections(object: unknown) {
     drawImage(hiddenCanvas, object as Collection[], {
       algorithm: 'longest-path',
       direction: 'down',
-      showAttributeFlags: false,
+      markRequiredAttributes: false,
       showSystemAttributes: false,
       showSelectValues: false
     });

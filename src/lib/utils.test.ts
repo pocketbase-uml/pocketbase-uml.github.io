@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { absRoundedHalfDiff, constrain, spaces, stripBackslashes } from './utils';
+import { absRoundedHalfDiff, constrain, sanitizeId, spaces, stripBackslashes } from './utils';
 
 describe('strip backslashes', () => {
   it('works with input containing backshashes', () => {
@@ -49,5 +49,17 @@ describe('constrain', () => {
   });
   it('works when number is above inversed interval', () => {
     expect(constrain(15, 10, 0)).toBe(10);
+  });
+});
+
+describe('sanitizeId', () => {
+  it('works with input containing underscores', () => {
+    expect(sanitizeId('this_is_a_test')).toBe('this000is000a000test');
+  });
+  it('works with input not containing underscores', () => {
+    expect(sanitizeId('thisisatest')).toBe('thisisatest');
+  });
+  it('works with empty input', () => {
+    expect(sanitizeId('')).toBe('');
   });
 });

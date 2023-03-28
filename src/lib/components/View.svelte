@@ -228,8 +228,8 @@
       on:change={handleSettingsChange}
     />
     <Switch
-      title="Show attribute flags"
-      bind:value={$settings.showAttributeFlags}
+      title="Mark required attributes with (*)"
+      bind:value={$settings.markRequiredAttributes}
       on:change={handleSettingsChange}
     />
     <Switch

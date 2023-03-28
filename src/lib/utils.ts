@@ -15,3 +15,7 @@ export function constrain(n: number, intervalStart: number, intervalEnd: number)
     ? Math.min(Math.max(n, intervalStart), intervalEnd)
     : Math.min(Math.max(n, intervalEnd), intervalStart);
 }
+
+export function sanitizeId(id?: string) {
+  return id?.replaceAll('_', '000') || '';
+}
