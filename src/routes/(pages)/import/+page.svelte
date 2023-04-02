@@ -50,6 +50,7 @@
         Paste below the PocketBase collections or
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <!-- svelte-ignore a11y-missing-attribute -->
+        <!-- svelte-ignore a11y-interactive-supports-focus -->
         <a class="load-json" role="button" on:click={() => fileInput.click()}
           >load them from a JSON file</a
         >.
