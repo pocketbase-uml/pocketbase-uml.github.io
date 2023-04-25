@@ -27,6 +27,10 @@
     "email": "ionut.florescu@gmail.com",
     "url": "https://github.com/icflorescu"
   },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/icflorescu"
+  },
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
