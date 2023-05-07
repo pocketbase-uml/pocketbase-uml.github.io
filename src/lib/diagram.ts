@@ -176,12 +176,15 @@ export function generateMarkup(
     for (const { name: entityName, attributes } of entityValues) {
       for (const { type, name: attributeName, options } of attributes) {
         if (type !== 'select') continue;
-        result += `[${entityName}]+->[<select id=${entityName}${attributeName}>«select»;${attributeName}|${(
+        const id = `${entityName.replace('_', '')}${attributeName}`;
+        result += `[${entityName}]+->[<select id=${id}>«select»;${attributeName}|${(
           options.values as string[]
         ).join(';')}]\n`;
       }
     }
   }
+
+  console.log(result);
 
   return result;
 }
