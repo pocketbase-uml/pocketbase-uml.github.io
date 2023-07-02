@@ -6,7 +6,7 @@
 
   let root: HTMLDivElement;
 
-  const dispatch = createEventDispatcher<{ dismiss: never }>();
+  const dispatch = createEventDispatcher<{ dismiss: undefined }>();
 
   const dismiss = () => dispatch('dismiss');
 
@@ -25,7 +25,7 @@
   });
 </script>
 
-<!-- svelte-ignore a11y-click-events-have-key-events -->
+<!-- svelte-ignore a11y-click-events-have-key-events a11y-no-static-element-interactions -->
 <div
   class="backdrop"
   in:fade={{ duration: 200 }}

@@ -8,7 +8,7 @@
 
   export let title: string;
 
-  const dispatch = createEventDispatcher<{ dismiss: never }>();
+  const dispatch = createEventDispatcher<{ dismiss: undefined }>();
   const dismiss = () => dispatch('dismiss');
   let root: HTMLDialogElement;
 
@@ -27,8 +27,9 @@
   });
 </script>
 
-<!-- svelte-ignore a11y-click-events-have-key-events -->
+<!-- svelte-ignore a11y-click-events-have-key-events a11y-no-static-element-interactions -->
 <div in:fade out:fade={{ duration: 100, delay: 100 }} on:click={dismiss}>
+  <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
   <dialog
     bind:this={root}
     open={true}

@@ -9,6 +9,7 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <svelte:element
   this={href ? 'a' : 'button'}
+  role={href ? 'link' : 'button'}
   class="root"
   class:outlined
   class:large
