@@ -252,6 +252,7 @@
   on:close={() => (closing = true)}
 />
 <div
+  role="presentation"
   bind:this={view}
   class:dragging
   on:dblclick={fit}
