@@ -184,8 +184,6 @@ export function generateMarkup(
     }
   }
 
-  console.log(result);
-
   return result;
 }
 
