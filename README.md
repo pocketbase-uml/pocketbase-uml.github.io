@@ -5,7 +5,8 @@
 [![NPM version][npm-image]][npm-url]
 [![Last commit][last-commit-image]][repo-url]
 [![Downloads][downloads-image]][npm-url]
-[![Language][language-image]][repo-url]  
+[![Language][language-image]][repo-url]
+[![Sponsor the author][sponsor-image]][sponsor-url]  
 
 A free, open-source web application that generates UML diagrams from PocketBase databases.
 
@@ -56,3 +57,5 @@ The [MIT License](https://github.com/pocketbase-uml/pocketbase-uml.github.io/blo
 [npm-url]: https://npmjs.org/package/pocketbase-uml
 [repo-url]: https://github.com/pocketbase-uml/pocketbase-uml.github.io
 [license-url]: LICENSE
+[sponsor-image]: https://img.shields.io/badge/sponsor-violet?style=flat-square
+[sponsor-url]: https://github.com/sponsors/icflorescu
