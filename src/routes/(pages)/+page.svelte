@@ -11,7 +11,7 @@
   let buttonsVisible = true;
 </script>
 
-<PageMeta />
+<PageMeta title="Visualize your PocketBase databases" />
 <p class="description">
   PocketBaseUML is a free, open-source UML diagram generator for PocketBase.
   <br />
