@@ -1,7 +1,7 @@
 <script lang="ts">
   import { PUBLIC_URL } from '$lib/config';
 
-  const image = `${PUBLIC_URL}/pocketbase-uml.png`;
+  const image = `${PUBLIC_URL}/pocketbase-uml-og.png`;
   export let title: string | undefined = undefined;
   export let description =
     'The PocketBase visual perspective: a free, open-source web application that generates UML diagrams from PocketBase databases';
