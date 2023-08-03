@@ -1,6 +1,6 @@
 {
   "name": "pocketbase-uml",
-  "version": "0.5.10",
+  "version": "0.5.11",
   "description": "A web application that generates UML diagrams based on PocketBase databases",
   "keywords": [
     "pocketbase",
@@ -11,7 +11,8 @@
     "data",
     "schema",
     "visualization",
-    "data model"
+    "data model",
+    "view"
   ],
   "files": [
     "app",
