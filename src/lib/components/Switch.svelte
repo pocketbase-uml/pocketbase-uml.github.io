@@ -4,7 +4,7 @@
   export let value: boolean;
   export let title: string;
 
-  const dispatch = createEventDispatcher<{ change: never }>();
+  const dispatch = createEventDispatcher<{ change: undefined }>();
 
   const handleChange = () => {
     value = !value;

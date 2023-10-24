@@ -20,13 +20,13 @@
   export let noData: boolean;
 
   const dispatch = createEventDispatcher<{
-    reload: never;
-    fit: never;
-    download: never;
-    copy: never;
-    share: never;
-    settings: never;
-    close: never;
+    reload: undefined;
+    fit: undefined;
+    download: undefined;
+    copy: undefined;
+    share: undefined;
+    settings: undefined;
+    close: undefined;
   }>();
 
   const cannotCopy = typeof ClipboardItem === 'undefined';

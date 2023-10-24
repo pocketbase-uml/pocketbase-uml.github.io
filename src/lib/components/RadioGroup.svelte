@@ -5,7 +5,7 @@
   export let value: string;
   export let options: { value: string; title: string }[];
 
-  const dispatch = createEventDispatcher<{ change: never }>();
+  const dispatch = createEventDispatcher<{ change: undefined }>();
 
   const handleChange = (event: Event) => {
     value = (event.target as HTMLInputElement).value;

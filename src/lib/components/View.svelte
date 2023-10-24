@@ -16,7 +16,7 @@
   import { createQuery } from '@tanstack/svelte-query';
   import { decode, encode } from 'js-base64';
   import throttle from 'lodash.throttle';
-  import type { Collection } from 'pocketbase';
+  import type { CollectionModel } from 'pocketbase';
   import { onDestroy } from 'svelte';
   import { fade } from 'svelte/transition';
   import ConfirmationModal from './ConfirmationModal.svelte';
@@ -30,7 +30,7 @@
   let canvas: HTMLCanvasElement;
 
   let connection: Connection | undefined;
-  let data: Collection[] | undefined;
+  let data: CollectionModel[] | undefined;
   let error = false;
   let closing = false;
   let settingsVisible = false;

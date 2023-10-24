@@ -7,7 +7,7 @@
   export let yesButtonTitle = 'Yes';
   export let noButtonTitle = 'No';
 
-  const dispatch = createEventDispatcher<{ yes: never; no: never }>();
+  const dispatch = createEventDispatcher<{ yes: undefined; no: undefined }>();
   const no = () => dispatch('no');
 </script>
 

@@ -1,6 +1,6 @@
 import { browser } from '$app/environment';
 import { draw } from 'nomnoml';
-import PocketBase, { type Collection } from 'pocketbase';
+import PocketBase, { type CollectionModel } from 'pocketbase';
 import type { Settings } from './settings';
 import { sanitizeId, spaces, stripBackslashes } from './utils';
 
@@ -71,7 +71,7 @@ const genericMarkupDirectives = Object.entries({
   .join('\n');
 
 export function generateMarkup(
-  collections: Collection[],
+  collections: CollectionModel[],
   { direction, algorithm, showSystemAttributes, markRequiredAttributes, showSelectValues }: Settings
 ) {
   const entities: Record<string, Entity> = Object.fromEntries(
@@ -189,7 +189,7 @@ export function generateMarkup(
 
 export function drawImage(
   canvas: HTMLCanvasElement,
-  collections: Collection[] | undefined,
+  collections: CollectionModel[] | undefined,
   settings: Settings,
   zoom = 1
 ) {
@@ -204,7 +204,7 @@ export function drawImage(
 export function validateCollections(object: unknown) {
   const hiddenCanvas = document.createElement('canvas');
   try {
-    drawImage(hiddenCanvas, object as Collection[], {
+    drawImage(hiddenCanvas, object as CollectionModel[], {
       algorithm: 'longest-path',
       direction: 'down',
       markRequiredAttributes: false,
@@ -216,7 +216,7 @@ export function validateCollections(object: unknown) {
   }
 }
 
-export function downloadPng(collections: Collection[] | undefined, settings: Settings) {
+export function downloadPng(collections: CollectionModel[] | undefined, settings: Settings) {
   if (!(browser && collections)) return;
   const hiddenCanvas = document.createElement('canvas');
   drawImage(hiddenCanvas, collections, settings);
@@ -228,7 +228,7 @@ export function downloadPng(collections: Collection[] | undefined, settings: Set
   link.remove();
 }
 
-export function copyPng(collections: Collection[] | undefined, settings: Settings) {
+export function copyPng(collections: CollectionModel[] | undefined, settings: Settings) {
   if (!(browser && collections)) return;
   const hiddenCanvas = document.createElement('canvas');
   drawImage(hiddenCanvas, collections, settings);

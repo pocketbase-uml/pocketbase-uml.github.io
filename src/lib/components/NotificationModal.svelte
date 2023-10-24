@@ -6,7 +6,7 @@
   export let title: string;
   export let buttonTitle = 'OK';
 
-  const dispatch = createEventDispatcher<{ dismiss: never }>();
+  const dispatch = createEventDispatcher<{ dismiss: undefined }>();
 </script>
 
 <Modal {title} on:dismiss>
