@@ -37,10 +37,11 @@
     "build": "vite build",
     "preview": "vite preview",
     "start": "node cli.cjs",
-    "test": "playwright test",
+    "test": "npm run test:unit && npm run test:integration",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-    "test:unit": "vitest",
+    "test:integration": "playwright test",
+    "test:unit": "vitest run",
     "lint": "prettier --plugin-search-dir . --check . && eslint .",
     "format": "prettier --plugin-search-dir . --write ."
   },
