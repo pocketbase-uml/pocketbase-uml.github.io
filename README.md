@@ -24,6 +24,10 @@ npx pocketbase-uml@latest
 Due to security browser restrictions, the online application can only access PocketBase databases through HTTPS.  
 If you want to access a local PocketBase databases through HTTP, you can either run the application locally or use a service such as [ngrok](https://ngrok.com) to expose your local server to the Internet.
 
+## Development info
+
+Make sure to install dependencies with `npm i --force` when running locally in development mode.
+
 ## Sponsor the project
 
 If you find this package useful, please consider ❤️ [sponsoring my work](https://github.com/sponsors/icflorescu). Your sponsorship will help me dedicate more time to maintaining the project and will encourage me to add new features and fix existing bugs.
