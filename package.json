@@ -1,6 +1,6 @@
 {
   "name": "pocketbase-uml",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "A free, open-source web application that generates UML diagrams based on PocketBase databases",
   "keywords": [
     "pocketbase",
@@ -52,7 +52,7 @@
     "@playwright/test": "^1.43.1",
     "@sveltejs/adapter-static": "^3.0.1",
     "@sveltejs/kit": "^2.5.7",
-    "@tanstack/svelte-query": "^5.32.1",
+    "@tanstack/svelte-query": "^5.34.1",
     "@types/eslint": "^8.56.10",
     "@types/lodash.throttle": "^4.1.9",
     "@typescript-eslint/eslint-plugin": "^7.8.0",
