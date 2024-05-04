@@ -96,7 +96,9 @@
     color: darken($color-shade-2, 30%);
     background: transparent;
     border-radius: 50%;
-    transition: color 0.25s, background 0.2s;
+    transition:
+      color 0.25s,
+      background 0.2s;
     @media (pointer: fine) {
       &:hover {
         color: darken($color-shade-2, 10%);

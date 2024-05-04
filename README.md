@@ -6,7 +6,7 @@
 [![Last commit][last-commit-image]][repo-url]
 [![Downloads][downloads-image]][npm-url]
 [![Language][language-image]][repo-url]
-[![Sponsor the author][sponsor-image]][sponsor-url]  
+[![Sponsor the author][sponsor-image]][sponsor-url]
 
 A free, open-source web application that generates UML diagrams from PocketBase databases.
 
