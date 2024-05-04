@@ -6,7 +6,7 @@
 [![Downloads][downloads-image]][npm-url]
 [![Language][language-image]][repo-url]
 [![Sponsor the author][sponsor-image]][sponsor-url]  
-![Publish NPM & deploy docs workflow](https://github.com/pocketbase-uml/pocketbase-uml.github.io/actions/workflows/publish-and-deploy.yml/badge.svg)
+![Publish NPM & deploy docs workflow](https://github.com/pocketbase-uml/pocketbase-uml.github.io/actions/workflows/pages.yml/badge.svg)
 
 A free, open-source web application that generates UML diagrams from PocketBase databases.
 
