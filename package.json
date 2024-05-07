@@ -1,6 +1,6 @@
 {
   "name": "pocketbase-uml",
-  "version": "0.8.3",
+  "version": "0.8.4",
   "description": "A free, open-source web application that generates UML diagrams based on PocketBase databases",
   "keywords": [
     "pocketbase",
@@ -49,13 +49,13 @@
     "pocketbase-uml": "./cli.cjs"
   },
   "devDependencies": {
-    "@playwright/test": "^1.43.1",
+    "@playwright/test": "^1.44.0",
     "@sveltejs/adapter-static": "^3.0.1",
     "@sveltejs/kit": "^2.5.7",
-    "@tanstack/svelte-query": "^5.34.1",
+    "@tanstack/svelte-query": "^5.35.1",
     "@types/eslint": "^8.56.10",
     "@types/lodash.throttle": "^4.1.9",
-    "@types/node": "^20.12.8",
+    "@types/node": "^20.12.10",
     "@typescript-eslint/eslint-plugin": "^7.8.0",
     "@typescript-eslint/parser": "^7.8.0",
     "eslint": "^8.56.0",
@@ -67,7 +67,7 @@
     "pocketbase": "^0.21.2",
     "prettier": "^3.2.5",
     "prettier-plugin-svelte": "^3.2.3",
-    "sass": "^1.76.0",
+    "sass": "^1.77.0",
     "svelte": "^4.2.15",
     "svelte-check": "^3.7.1",
     "svelte-local-storage-store": "^0.6.4",
