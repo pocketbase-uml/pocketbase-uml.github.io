@@ -21,6 +21,22 @@ You can access it online at [pocketbase-uml.github.io](https://pocketbase-uml.gi
 npx pocketbase-uml@latest
 ```
 
+You can build your Docker Image using our Dockerfile:
+
+1- First, you can build the image using this command:
+
+```sh
+docker build -t pocket-app .
+```
+
+2- Run the Docker container:
+
+```sh
+docker run -d -p <PortOnYourChoise>:9000 pocket-app
+```
+
+3- Browse the application via: http://localhost:`ThePortThatYouHaveChosen`
+
 Due to security browser restrictions, the online application can only access PocketBase databases through HTTPS.  
 If you want to access a local PocketBase databases through HTTP, you can either run the application locally or use a service such as [ngrok](https://ngrok.com) to expose your local server to the Internet.
 
