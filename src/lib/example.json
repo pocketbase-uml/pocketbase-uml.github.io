@@ -1,834 +1,748 @@
 [
   {
     "id": "_pb_users_auth_",
-    "name": "users",
-    "type": "auth",
-    "system": false,
-    "schema": [
-      {
-        "id": "users_name",
-        "name": "name",
-        "type": "text",
-        "system": false,
-        "required": false,
-        "unique": false,
-        "options": {
-          "min": null,
-          "max": null,
-          "pattern": ""
-        }
-      },
-      {
-        "id": "users_avatar",
-        "name": "avatar",
-        "type": "file",
-        "system": false,
-        "required": false,
-        "unique": false,
-        "options": {
-          "maxSelect": 1,
-          "maxSize": 5242880,
-          "mimeTypes": ["image/jpeg", "image/png", "image/svg+xml", "image/gif", "image/webp"],
-          "thumbs": null
-        }
-      }
-    ],
     "listRule": "id = @request.auth.id",
     "viewRule": "id = @request.auth.id",
     "createRule": "",
     "updateRule": "id = @request.auth.id",
     "deleteRule": "id = @request.auth.id",
-    "options": {
-      "allowEmailAuth": true,
-      "allowOAuth2Auth": true,
-      "allowUsernameAuth": true,
-      "exceptEmailDomains": null,
-      "manageRule": null,
-      "minPasswordLength": 8,
-      "onlyEmailDomains": null,
-      "requireEmail": false
+    "name": "users",
+    "type": "auth",
+    "fields": [
+      {
+        "autogeneratePattern": "[a-z0-9]{15}",
+        "hidden": false,
+        "id": "text3208210256",
+        "max": 15,
+        "min": 15,
+        "name": "id",
+        "pattern": "^[a-z0-9]+$",
+        "presentable": false,
+        "primaryKey": true,
+        "required": true,
+        "system": true,
+        "type": "text"
+      },
+      {
+        "cost": 0,
+        "hidden": true,
+        "id": "password901924565",
+        "max": 0,
+        "min": 8,
+        "name": "password",
+        "pattern": "",
+        "presentable": false,
+        "required": true,
+        "system": true,
+        "type": "password"
+      },
+      {
+        "autogeneratePattern": "[a-zA-Z0-9]{50}",
+        "hidden": true,
+        "id": "text2504183744",
+        "max": 60,
+        "min": 30,
+        "name": "tokenKey",
+        "pattern": "",
+        "presentable": false,
+        "primaryKey": false,
+        "required": true,
+        "system": true,
+        "type": "text"
+      },
+      {
+        "exceptDomains": null,
+        "hidden": false,
+        "id": "email3885137012",
+        "name": "email",
+        "onlyDomains": null,
+        "presentable": false,
+        "required": true,
+        "system": true,
+        "type": "email"
+      },
+      {
+        "hidden": false,
+        "id": "bool1547992806",
+        "name": "emailVisibility",
+        "presentable": false,
+        "required": false,
+        "system": true,
+        "type": "bool"
+      },
+      {
+        "hidden": false,
+        "id": "bool256245529",
+        "name": "verified",
+        "presentable": false,
+        "required": false,
+        "system": true,
+        "type": "bool"
+      },
+      {
+        "autogeneratePattern": "",
+        "hidden": false,
+        "id": "text1579384326",
+        "max": 255,
+        "min": 0,
+        "name": "name",
+        "pattern": "",
+        "presentable": false,
+        "primaryKey": false,
+        "required": false,
+        "system": false,
+        "type": "text"
+      },
+      {
+        "hidden": false,
+        "id": "file376926767",
+        "maxSelect": 1,
+        "maxSize": 0,
+        "mimeTypes": ["image/jpeg", "image/png", "image/svg+xml", "image/gif", "image/webp"],
+        "name": "avatar",
+        "presentable": false,
+        "protected": false,
+        "required": false,
+        "system": false,
+        "thumbs": null,
+        "type": "file"
+      },
+      {
+        "hidden": false,
+        "id": "autodate2990389176",
+        "name": "created",
+        "onCreate": true,
+        "onUpdate": false,
+        "presentable": false,
+        "system": false,
+        "type": "autodate"
+      },
+      {
+        "hidden": false,
+        "id": "autodate3332085495",
+        "name": "updated",
+        "onCreate": true,
+        "onUpdate": true,
+        "presentable": false,
+        "system": false,
+        "type": "autodate"
+      }
+    ],
+    "indexes": [
+      "CREATE UNIQUE INDEX `idx_tokenKey__pb_users_auth_` ON `users` (`tokenKey`)",
+      "CREATE UNIQUE INDEX `idx_email__pb_users_auth_` ON `users` (`email`) WHERE `email` != ''"
+    ],
+    "system": false,
+    "authRule": "",
+    "manageRule": null,
+    "authAlert": {
+      "enabled": true,
+      "emailTemplate": {
+        "subject": "Login from a new location",
+        "body": "<p>Hello,</p>\n<p>We noticed a login to your {APP_NAME} account from a new location.</p>\n<p>If this was you, you may disregard this email.</p>\n<p><strong>If this wasn't you, you should immediately change your {APP_NAME} account password to revoke access from all other locations.</strong></p>\n<p>\n  Thanks,<br/>\n  {APP_NAME} team\n</p>"
+      }
+    },
+    "oauth2": {
+      "mappedFields": {
+        "id": "",
+        "name": "name",
+        "username": "",
+        "avatarURL": "avatar"
+      },
+      "enabled": false
+    },
+    "passwordAuth": {
+      "enabled": true,
+      "identityFields": ["email"]
+    },
+    "mfa": {
+      "enabled": false,
+      "duration": 1800,
+      "rule": ""
+    },
+    "otp": {
+      "enabled": false,
+      "duration": 180,
+      "length": 8,
+      "emailTemplate": {
+        "subject": "OTP for {APP_NAME}",
+        "body": "<p>Hello,</p>\n<p>Your one-time password is: <strong>{OTP}</strong></p>\n<p><i>If you didn't ask for the one-time password, you can ignore this email.</i></p>\n<p>\n  Thanks,<br/>\n  {APP_NAME} team\n</p>"
+      }
+    },
+    "authToken": {
+      "duration": 604800
+    },
+    "passwordResetToken": {
+      "duration": 1800
+    },
+    "emailChangeToken": {
+      "duration": 1800
+    },
+    "verificationToken": {
+      "duration": 259200
+    },
+    "fileToken": {
+      "duration": 180
+    },
+    "verificationTemplate": {
+      "subject": "Verify your {APP_NAME} email",
+      "body": "<p>Hello,</p>\n<p>Thank you for joining us at {APP_NAME}.</p>\n<p>Click on the button below to verify your email address.</p>\n<p>\n  <a class=\"btn\" href=\"{APP_URL}/_/#/auth/confirm-verification/{TOKEN}\" target=\"_blank\" rel=\"noopener\">Verify</a>\n</p>\n<p>\n  Thanks,<br/>\n  {APP_NAME} team\n</p>"
+    },
+    "resetPasswordTemplate": {
+      "subject": "Reset your {APP_NAME} password",
+      "body": "<p>Hello,</p>\n<p>Click on the button below to reset your password.</p>\n<p>\n  <a class=\"btn\" href=\"{APP_URL}/_/#/auth/confirm-password-reset/{TOKEN}\" target=\"_blank\" rel=\"noopener\">Reset password</a>\n</p>\n<p><i>If you didn't ask to reset your password, you can ignore this email.</i></p>\n<p>\n  Thanks,<br/>\n  {APP_NAME} team\n</p>"
+    },
+    "confirmEmailChangeTemplate": {
+      "subject": "Confirm your {APP_NAME} new email address",
+      "body": "<p>Hello,</p>\n<p>Click on the button below to confirm your new email address.</p>\n<p>\n  <a class=\"btn\" href=\"{APP_URL}/_/#/auth/confirm-email-change/{TOKEN}\" target=\"_blank\" rel=\"noopener\">Confirm new email</a>\n</p>\n<p><i>If you didn't ask to change your email address, you can ignore this email.</i></p>\n<p>\n  Thanks,<br/>\n  {APP_NAME} team\n</p>"
     }
   },
   {
-    "id": "7ksmp2ny90ci03s",
-    "name": "products",
-    "type": "base",
-    "system": false,
-    "schema": [
-      {
-        "id": "pfetcsws",
-        "name": "sku",
-        "type": "text",
-        "system": false,
-        "required": true,
-        "unique": true,
-        "options": {
-          "min": null,
-          "max": null,
-          "pattern": "^([A-Z]\\d){6}$"
-        }
-      },
-      {
-        "id": "x7wzbja9",
-        "name": "name",
-        "type": "text",
-        "system": false,
-        "required": true,
-        "unique": false,
-        "options": {
-          "min": 3,
-          "max": 100,
-          "pattern": ""
-        }
-      },
-      {
-        "id": "wjqpcck3",
-        "name": "description",
-        "type": "editor",
-        "system": false,
-        "required": false,
-        "unique": false,
-        "options": {}
-      },
-      {
-        "id": "xidrmfeq",
-        "name": "categories",
-        "type": "relation",
-        "system": false,
-        "required": true,
-        "unique": false,
-        "options": {
-          "collectionId": "eex65w4ack7mn3o",
-          "cascadeDelete": false,
-          "minSelect": 1,
-          "maxSelect": 3,
-          "displayFields": []
-        }
-      },
-      {
-        "id": "vynr37su",
-        "name": "createdBy",
-        "type": "relation",
-        "system": false,
-        "required": true,
-        "unique": false,
-        "options": {
-          "collectionId": "_pb_users_auth_",
-          "cascadeDelete": false,
-          "minSelect": null,
-          "maxSelect": 1,
-          "displayFields": []
-        }
-      },
-      {
-        "id": "gequjmkp",
-        "name": "updatedBy",
-        "type": "relation",
-        "system": false,
-        "required": true,
-        "unique": false,
-        "options": {
-          "collectionId": "_pb_users_auth_",
-          "cascadeDelete": false,
-          "minSelect": null,
-          "maxSelect": 1,
-          "displayFields": []
-        }
-      }
-    ],
+    "id": "pbc_3292755704",
     "listRule": null,
     "viewRule": null,
     "createRule": null,
     "updateRule": null,
     "deleteRule": null,
-    "options": {}
-  },
-  {
-    "id": "eex65w4ack7mn3o",
     "name": "categories",
     "type": "base",
-    "system": false,
-    "schema": [
+    "fields": [
       {
-        "id": "stkrqbrl",
+        "autogeneratePattern": "[a-z0-9]{15}",
+        "hidden": false,
+        "id": "text3208210256",
+        "max": 15,
+        "min": 15,
+        "name": "id",
+        "pattern": "^[a-z0-9]+$",
+        "presentable": false,
+        "primaryKey": true,
+        "required": true,
+        "system": true,
+        "type": "text"
+      },
+      {
+        "autogeneratePattern": "",
+        "hidden": false,
+        "id": "text1579384326",
+        "max": 100,
+        "min": 3,
         "name": "name",
-        "type": "text",
-        "system": false,
+        "pattern": "",
+        "presentable": false,
+        "primaryKey": false,
         "required": true,
-        "unique": true,
-        "options": {
-          "min": 3,
-          "max": 50,
-          "pattern": ""
-        }
+        "system": false,
+        "type": "text"
       },
       {
-        "id": "k9btqcti",
-        "name": "createdBy",
-        "type": "relation",
+        "convertURLs": false,
+        "hidden": false,
+        "id": "editor1843675174",
+        "maxSize": 0,
+        "name": "description",
+        "presentable": false,
+        "required": false,
         "system": false,
-        "required": true,
-        "unique": false,
-        "options": {
-          "collectionId": "_pb_users_auth_",
-          "cascadeDelete": false,
-          "minSelect": null,
-          "maxSelect": 1,
-          "displayFields": []
-        }
+        "type": "editor"
       },
       {
-        "id": "njokb1dd",
-        "name": "updatedBy",
-        "type": "relation",
+        "cascadeDelete": false,
+        "collectionId": "pbc_4092854851",
+        "hidden": false,
+        "id": "relation3015334490",
+        "maxSelect": 999,
+        "minSelect": 0,
+        "name": "products",
+        "presentable": false,
+        "required": false,
         "system": false,
-        "required": true,
-        "unique": false,
-        "options": {
-          "collectionId": "_pb_users_auth_",
-          "cascadeDelete": false,
-          "minSelect": null,
-          "maxSelect": 1,
-          "displayFields": []
-        }
+        "type": "relation"
+      },
+      {
+        "hidden": false,
+        "id": "autodate2990389176",
+        "name": "created",
+        "onCreate": true,
+        "onUpdate": false,
+        "presentable": false,
+        "system": false,
+        "type": "autodate"
+      },
+      {
+        "hidden": false,
+        "id": "autodate3332085495",
+        "name": "updated",
+        "onCreate": true,
+        "onUpdate": true,
+        "presentable": false,
+        "system": false,
+        "type": "autodate"
       }
     ],
+    "indexes": [],
+    "system": false
+  },
+  {
+    "id": "pbc_3735627160",
     "listRule": null,
     "viewRule": null,
     "createRule": null,
     "updateRule": null,
     "deleteRule": null,
-    "options": {}
-  },
-  {
-    "id": "docmsmucw5m0i6e",
-    "name": "stores",
-    "type": "base",
-    "system": false,
-    "schema": [
-      {
-        "id": "2nkmlp27",
-        "name": "name",
-        "type": "text",
-        "system": false,
-        "required": true,
-        "unique": true,
-        "options": {
-          "min": 3,
-          "max": 100,
-          "pattern": ""
-        }
-      },
-      {
-        "id": "chr7fdln",
-        "name": "url",
-        "type": "url",
-        "system": false,
-        "required": false,
-        "unique": false,
-        "options": {
-          "exceptDomains": [],
-          "onlyDomains": []
-        }
-      },
-      {
-        "id": "ywv2sosn",
-        "name": "manager",
-        "type": "relation",
-        "system": false,
-        "required": false,
-        "unique": false,
-        "options": {
-          "collectionId": "ffjhg4gh7vctzf4",
-          "cascadeDelete": false,
-          "minSelect": null,
-          "maxSelect": 1,
-          "displayFields": []
-        }
-      },
-      {
-        "id": "hfac6btl",
-        "name": "tags",
-        "type": "select",
-        "system": false,
-        "required": false,
-        "unique": false,
-        "options": {
-          "maxSelect": 5,
-          "values": ["tag1", "tag2", "tag3", "tag4", "tag5", "tag6", "tag7", "tag8", "tag9"]
-        }
-      },
-      {
-        "id": "kcg3y3e2",
-        "name": "moreTags",
-        "type": "select",
-        "system": false,
-        "required": false,
-        "unique": false,
-        "options": {
-          "maxSelect": 3,
-          "values": ["option1", "option2", "option3", "option4", "option5", "option6"]
-        }
-      },
-      {
-        "id": "1ro4cirn",
-        "name": "country",
-        "type": "select",
-        "system": false,
-        "required": true,
-        "unique": false,
-        "options": {
-          "maxSelect": 1,
-          "values": [
-            "France",
-            "UK",
-            "Sweden",
-            "Germany",
-            "Austria",
-            "Italy",
-            "Belgium",
-            "Denmark",
-            "Norway",
-            "Spain",
-            "Portugal",
-            "Ukraine",
-            "Poland",
-            "Estonia",
-            "Australia",
-            "Mexico",
-            "Guatemala"
-          ]
-        }
-      },
-      {
-        "id": "cbhpfbcw",
-        "name": "createdBy",
-        "type": "relation",
-        "system": false,
-        "required": true,
-        "unique": false,
-        "options": {
-          "collectionId": "_pb_users_auth_",
-          "cascadeDelete": false,
-          "minSelect": null,
-          "maxSelect": 1,
-          "displayFields": []
-        }
-      },
-      {
-        "id": "bnwyeeqq",
-        "name": "updatedBy",
-        "type": "relation",
-        "system": false,
-        "required": true,
-        "unique": false,
-        "options": {
-          "collectionId": "_pb_users_auth_",
-          "cascadeDelete": false,
-          "minSelect": null,
-          "maxSelect": 1,
-          "displayFields": []
-        }
-      }
-    ],
-    "listRule": null,
-    "viewRule": null,
-    "createRule": null,
-    "updateRule": null,
-    "deleteRule": null,
-    "options": {}
-  },
-  {
-    "id": "ffjhg4gh7vctzf4",
     "name": "employees",
     "type": "base",
-    "system": false,
-    "schema": [
+    "fields": [
       {
-        "id": "ihn4vryo",
-        "name": "badge",
-        "type": "text",
-        "system": false,
+        "autogeneratePattern": "[a-z0-9]{15}",
+        "hidden": false,
+        "id": "text3208210256",
+        "max": 15,
+        "min": 15,
+        "name": "id",
+        "pattern": "^[a-z0-9]+$",
+        "presentable": false,
+        "primaryKey": true,
         "required": true,
-        "unique": true,
-        "options": {
-          "min": null,
-          "max": null,
-          "pattern": "^[A-Z]{2}\\d{5}$"
-        }
+        "system": true,
+        "type": "text"
       },
       {
-        "id": "uv4y51rf",
-        "name": "firstName",
-        "type": "text",
-        "system": false,
-        "required": true,
-        "unique": false,
-        "options": {
-          "min": 1,
-          "max": 50,
-          "pattern": ""
-        }
-      },
-      {
-        "id": "k85p7nu5",
-        "name": "lastName",
-        "type": "text",
-        "system": false,
-        "required": true,
-        "unique": false,
-        "options": {
-          "min": 1,
-          "max": 50,
-          "pattern": ""
-        }
-      },
-      {
-        "id": "x1tr7awh",
-        "name": "email",
-        "type": "email",
-        "system": false,
-        "required": true,
-        "unique": false,
-        "options": {
-          "exceptDomains": null,
-          "onlyDomains": null
-        }
-      },
-      {
-        "id": "m7cbpijm",
-        "name": "hiredAt",
-        "type": "date",
-        "system": false,
-        "required": true,
-        "unique": false,
-        "options": {
-          "min": "",
-          "max": ""
-        }
-      },
-      {
-        "id": "yu4k5gkt",
+        "cascadeDelete": true,
+        "collectionId": "pbc_3800236418",
+        "hidden": false,
+        "id": "relation4283914359",
+        "maxSelect": 1,
+        "minSelect": 0,
         "name": "store",
-        "type": "relation",
-        "system": false,
-        "required": false,
-        "unique": false,
-        "options": {
-          "collectionId": "docmsmucw5m0i6e",
-          "cascadeDelete": false,
-          "minSelect": null,
-          "maxSelect": 1,
-          "displayFields": []
-        }
-      },
-      {
-        "id": "ebmoq0ze",
-        "name": "manager",
-        "type": "relation",
-        "system": false,
-        "required": false,
-        "unique": false,
-        "options": {
-          "collectionId": "ffjhg4gh7vctzf4",
-          "cascadeDelete": false,
-          "minSelect": null,
-          "maxSelect": 1,
-          "displayFields": []
-        }
-      },
-      {
-        "id": "iirpgc2c",
-        "name": "opts",
-        "type": "select",
-        "system": false,
+        "presentable": false,
         "required": true,
-        "unique": false,
-        "options": {
-          "maxSelect": 2,
-          "values": ["one", "two", "three", "four", "five", "six", "seven"]
-        }
+        "system": false,
+        "type": "relation"
       },
       {
-        "id": "xysulcdv",
-        "name": "createdBy",
-        "type": "relation",
-        "system": false,
+        "autogeneratePattern": "",
+        "hidden": false,
+        "id": "text596812118",
+        "max": 50,
+        "min": 1,
+        "name": "firstName",
+        "pattern": "",
+        "presentable": false,
+        "primaryKey": false,
         "required": true,
-        "unique": false,
-        "options": {
-          "collectionId": "_pb_users_auth_",
-          "cascadeDelete": false,
-          "minSelect": null,
-          "maxSelect": 1,
-          "displayFields": []
-        }
+        "system": false,
+        "type": "text"
       },
       {
-        "id": "9ngqlcdb",
-        "name": "updatedBy",
-        "type": "relation",
-        "system": false,
+        "autogeneratePattern": "",
+        "hidden": false,
+        "id": "text2434144904",
+        "max": 50,
+        "min": 1,
+        "name": "lastName",
+        "pattern": "",
+        "presentable": false,
+        "primaryKey": false,
         "required": true,
-        "unique": false,
-        "options": {
-          "collectionId": "_pb_users_auth_",
-          "cascadeDelete": false,
-          "minSelect": null,
-          "maxSelect": 1,
-          "displayFields": []
-        }
+        "system": false,
+        "type": "text"
+      },
+      {
+        "exceptDomains": [],
+        "hidden": false,
+        "id": "email1180328558",
+        "name": "emailAddress",
+        "onlyDomains": [],
+        "presentable": false,
+        "required": true,
+        "system": false,
+        "type": "email"
+      },
+      {
+        "hidden": false,
+        "id": "date1961926509",
+        "max": "",
+        "min": "",
+        "name": "hiredAt",
+        "presentable": false,
+        "required": true,
+        "system": false,
+        "type": "date"
+      },
+      {
+        "hidden": false,
+        "id": "autodate2990389176",
+        "name": "created",
+        "onCreate": true,
+        "onUpdate": false,
+        "presentable": false,
+        "system": false,
+        "type": "autodate"
+      },
+      {
+        "hidden": false,
+        "id": "autodate3332085495",
+        "name": "updated",
+        "onCreate": true,
+        "onUpdate": true,
+        "presentable": false,
+        "system": false,
+        "type": "autodate"
       }
     ],
+    "indexes": [],
+    "system": false
+  },
+  {
+    "id": "pbc_4092854851",
     "listRule": null,
     "viewRule": null,
     "createRule": null,
     "updateRule": null,
     "deleteRule": null,
-    "options": {}
+    "name": "products",
+    "type": "base",
+    "fields": [
+      {
+        "autogeneratePattern": "[a-z0-9]{15}",
+        "hidden": false,
+        "id": "text3208210256",
+        "max": 15,
+        "min": 15,
+        "name": "id",
+        "pattern": "^[a-z0-9]+$",
+        "presentable": false,
+        "primaryKey": true,
+        "required": true,
+        "system": true,
+        "type": "text"
+      },
+      {
+        "autogeneratePattern": "",
+        "hidden": false,
+        "id": "text261109956",
+        "max": 8,
+        "min": 5,
+        "name": "sku",
+        "pattern": "",
+        "presentable": false,
+        "primaryKey": false,
+        "required": true,
+        "system": false,
+        "type": "text"
+      },
+      {
+        "autogeneratePattern": "",
+        "hidden": false,
+        "id": "text1579384326",
+        "max": 200,
+        "min": 3,
+        "name": "name",
+        "pattern": "",
+        "presentable": false,
+        "primaryKey": false,
+        "required": true,
+        "system": false,
+        "type": "text"
+      },
+      {
+        "convertURLs": false,
+        "hidden": false,
+        "id": "editor1843675174",
+        "maxSize": 0,
+        "name": "description",
+        "presentable": false,
+        "required": false,
+        "system": false,
+        "type": "editor"
+      },
+      {
+        "hidden": false,
+        "id": "select1874629670",
+        "maxSelect": 4,
+        "name": "tags",
+        "presentable": false,
+        "required": false,
+        "system": false,
+        "type": "select",
+        "values": ["tag1", "tag2", "tag3", "tag4", "tag5", "tag6"]
+      },
+      {
+        "hidden": false,
+        "id": "autodate2990389176",
+        "name": "created",
+        "onCreate": true,
+        "onUpdate": false,
+        "presentable": false,
+        "system": false,
+        "type": "autodate"
+      },
+      {
+        "hidden": false,
+        "id": "autodate3332085495",
+        "name": "updated",
+        "onCreate": true,
+        "onUpdate": true,
+        "presentable": false,
+        "system": false,
+        "type": "autodate"
+      }
+    ],
+    "indexes": [],
+    "system": false
   },
   {
-    "id": "4mwstpmsvlc5w4v",
+    "id": "pbc_1642390859",
+    "listRule": null,
+    "viewRule": null,
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
     "name": "stocks",
     "type": "base",
-    "system": false,
-    "schema": [
+    "fields": [
       {
-        "id": "9dfldyen",
+        "autogeneratePattern": "[a-z0-9]{15}",
+        "hidden": false,
+        "id": "text3208210256",
+        "max": 15,
+        "min": 15,
+        "name": "id",
+        "pattern": "^[a-z0-9]+$",
+        "presentable": false,
+        "primaryKey": true,
+        "required": true,
+        "system": true,
+        "type": "text"
+      },
+      {
+        "cascadeDelete": false,
+        "collectionId": "pbc_3800236418",
+        "hidden": false,
+        "id": "relation4283914359",
+        "maxSelect": 1,
+        "minSelect": 0,
         "name": "store",
-        "type": "relation",
-        "system": false,
+        "presentable": false,
         "required": true,
-        "unique": false,
-        "options": {
-          "collectionId": "docmsmucw5m0i6e",
-          "cascadeDelete": true,
-          "minSelect": null,
-          "maxSelect": 1,
-          "displayFields": []
-        }
+        "system": false,
+        "type": "relation"
       },
       {
-        "id": "ljjp8vtp",
+        "cascadeDelete": false,
+        "collectionId": "pbc_4092854851",
+        "hidden": false,
+        "id": "relation3544843437",
+        "maxSelect": 1,
+        "minSelect": 0,
         "name": "product",
-        "type": "relation",
-        "system": false,
+        "presentable": false,
         "required": true,
-        "unique": false,
-        "options": {
-          "collectionId": "7ksmp2ny90ci03s",
-          "cascadeDelete": true,
-          "minSelect": null,
-          "maxSelect": 1,
-          "displayFields": []
-        }
+        "system": false,
+        "type": "relation"
       },
       {
-        "id": "2bqim1jw",
+        "hidden": false,
+        "id": "number3920655433",
+        "max": 5000,
+        "min": 0,
         "name": "units",
-        "type": "number",
-        "system": false,
+        "onlyInt": true,
+        "presentable": false,
         "required": false,
-        "unique": false,
-        "options": {
-          "min": 1,
-          "max": null
-        }
+        "system": false,
+        "type": "number"
       },
       {
-        "id": "tjwhbyyt",
-        "name": "updatedBy",
-        "type": "relation",
+        "hidden": false,
+        "id": "autodate2990389176",
+        "name": "created",
+        "onCreate": true,
+        "onUpdate": false,
+        "presentable": false,
         "system": false,
-        "required": true,
-        "unique": false,
-        "options": {
-          "collectionId": "_pb_users_auth_",
-          "cascadeDelete": false,
-          "minSelect": null,
-          "maxSelect": 1,
-          "displayFields": []
-        }
+        "type": "autodate"
       },
       {
-        "id": "iwpsavxr",
-        "name": "createdBy",
-        "type": "relation",
+        "hidden": false,
+        "id": "autodate3332085495",
+        "name": "updated",
+        "onCreate": true,
+        "onUpdate": true,
+        "presentable": false,
         "system": false,
-        "required": true,
-        "unique": false,
-        "options": {
-          "collectionId": "_pb_users_auth_",
-          "cascadeDelete": false,
-          "minSelect": null,
-          "maxSelect": 1,
-          "displayFields": []
-        }
+        "type": "autodate"
       }
     ],
+    "indexes": [],
+    "system": false
+  },
+  {
+    "id": "pbc_3800236418",
     "listRule": null,
     "viewRule": null,
     "createRule": null,
     "updateRule": null,
     "deleteRule": null,
-    "options": {}
-  },
-  {
-    "id": "acukq57u0ftx4qi",
-    "name": "makes",
+    "name": "stores",
     "type": "base",
-    "system": false,
-    "schema": [
+    "fields": [
       {
-        "id": "jpfp8ceh",
+        "autogeneratePattern": "[a-z0-9]{15}",
+        "hidden": false,
+        "id": "text3208210256",
+        "max": 15,
+        "min": 15,
+        "name": "id",
+        "pattern": "^[a-z0-9]+$",
+        "presentable": false,
+        "primaryKey": true,
+        "required": true,
+        "system": true,
+        "type": "text"
+      },
+      {
+        "autogeneratePattern": "",
+        "hidden": false,
+        "id": "text1579384326",
+        "max": 100,
+        "min": 10,
         "name": "name",
-        "type": "text",
-        "system": false,
+        "pattern": "",
+        "presentable": false,
+        "primaryKey": false,
         "required": true,
-        "unique": true,
-        "options": {
-          "min": 2,
-          "max": 50,
-          "pattern": ""
-        }
+        "system": false,
+        "type": "text"
+      },
+      {
+        "exceptDomains": [],
+        "hidden": false,
+        "id": "url4101391790",
+        "name": "url",
+        "onlyDomains": [],
+        "presentable": false,
+        "required": true,
+        "system": false,
+        "type": "url"
+      },
+      {
+        "cascadeDelete": false,
+        "collectionId": "pbc_3735627160",
+        "hidden": false,
+        "id": "relation4196672953",
+        "maxSelect": 1,
+        "minSelect": 0,
+        "name": "manager",
+        "presentable": false,
+        "required": false,
+        "system": false,
+        "type": "relation"
+      },
+      {
+        "hidden": false,
+        "id": "select1400097126",
+        "maxSelect": 1,
+        "name": "country",
+        "presentable": false,
+        "required": true,
+        "system": false,
+        "type": "select",
+        "values": [
+          "Canada",
+          "United States",
+          "United Kingdom",
+          "France",
+          "Belgium",
+          "Romania",
+          "Germany"
+        ]
+      },
+      {
+        "hidden": false,
+        "id": "bool1816014209",
+        "name": "isOpened",
+        "presentable": false,
+        "required": false,
+        "system": false,
+        "type": "bool"
+      },
+      {
+        "hidden": false,
+        "id": "autodate2990389176",
+        "name": "created",
+        "onCreate": true,
+        "onUpdate": false,
+        "presentable": false,
+        "system": false,
+        "type": "autodate"
+      },
+      {
+        "hidden": false,
+        "id": "autodate3332085495",
+        "name": "updated",
+        "onCreate": true,
+        "onUpdate": true,
+        "presentable": false,
+        "system": false,
+        "type": "autodate"
       }
     ],
+    "indexes": [],
+    "system": false
+  },
+  {
+    "id": "pbc_3781569175",
     "listRule": null,
     "viewRule": null,
     "createRule": null,
     "updateRule": null,
     "deleteRule": null,
-    "options": {}
-  },
-  {
-    "id": "msodycn6wvtgc3y",
-    "name": "models",
-    "type": "base",
-    "system": false,
-    "schema": [
-      {
-        "id": "nzuwys7y",
-        "name": "name",
-        "type": "text",
-        "system": false,
-        "required": true,
-        "unique": false,
-        "options": {
-          "min": 1,
-          "max": 50,
-          "pattern": ""
-        }
-      },
-      {
-        "id": "qtf9jscz",
-        "name": "make",
-        "type": "relation",
-        "system": false,
-        "required": true,
-        "unique": false,
-        "options": {
-          "collectionId": "acukq57u0ftx4qi",
-          "cascadeDelete": false,
-          "minSelect": null,
-          "maxSelect": 1,
-          "displayFields": []
-        }
-      }
-    ],
-    "listRule": null,
-    "viewRule": null,
-    "createRule": null,
-    "updateRule": null,
-    "deleteRule": null,
-    "options": {}
-  },
-  {
-    "id": "sa4pduxtbtp71ub",
-    "name": "cars",
-    "type": "base",
-    "system": false,
-    "schema": [
-      {
-        "id": "dmdk0joe",
-        "name": "sku",
-        "type": "text",
-        "system": false,
-        "required": true,
-        "unique": true,
-        "options": {
-          "min": null,
-          "max": null,
-          "pattern": "^([A-Z]\\d){6}$"
-        }
-      },
-      {
-        "id": "ft8vg9wt",
-        "name": "make",
-        "type": "relation",
-        "system": false,
-        "required": true,
-        "unique": false,
-        "options": {
-          "collectionId": "acukq57u0ftx4qi",
-          "cascadeDelete": false,
-          "minSelect": null,
-          "maxSelect": 1,
-          "displayFields": []
-        }
-      },
-      {
-        "id": "zzghvliw",
-        "name": "model",
-        "type": "relation",
-        "system": false,
-        "required": false,
-        "unique": false,
-        "options": {
-          "collectionId": "msodycn6wvtgc3y",
-          "cascadeDelete": false,
-          "minSelect": null,
-          "maxSelect": 1,
-          "displayFields": []
-        }
-      },
-      {
-        "id": "fx7ygdwj",
-        "name": "year",
-        "type": "number",
-        "system": false,
-        "required": false,
-        "unique": true,
-        "options": {
-          "min": 1970,
-          "max": null
-        }
-      },
-      {
-        "id": "5fc2b7c6",
-        "name": "owner",
-        "type": "relation",
-        "system": false,
-        "required": true,
-        "unique": false,
-        "options": {
-          "collectionId": "ffjhg4gh7vctzf4",
-          "cascadeDelete": false,
-          "minSelect": null,
-          "maxSelect": 1,
-          "displayFields": []
-        }
-      },
-      {
-        "id": "46navudd",
-        "name": "bought",
-        "type": "date",
-        "system": false,
-        "required": false,
-        "unique": false,
-        "options": {
-          "min": "",
-          "max": ""
-        }
-      }
-    ],
-    "listRule": null,
-    "viewRule": null,
-    "createRule": null,
-    "updateRule": null,
-    "deleteRule": null,
-    "options": {}
-  },
-  {
-    "id": "czebcr6884xkqx9",
-    "name": "carsView",
+    "name": "totalStocks",
     "type": "view",
-    "system": false,
-    "schema": [
+    "fields": [
       {
-        "id": "dmdk0joe",
+        "autogeneratePattern": "",
+        "hidden": false,
+        "id": "text3208210256",
+        "max": 0,
+        "min": 0,
+        "name": "id",
+        "pattern": "^[a-z0-9]+$",
+        "presentable": false,
+        "primaryKey": true,
+        "required": true,
+        "system": true,
+        "type": "text"
+      },
+      {
+        "autogeneratePattern": "",
+        "hidden": false,
+        "id": "_clone_tP7t",
+        "max": 8,
+        "min": 5,
         "name": "sku",
-        "type": "text",
-        "system": false,
+        "pattern": "",
+        "presentable": false,
+        "primaryKey": false,
         "required": true,
-        "unique": true,
-        "options": {
-          "min": null,
-          "max": null,
-          "pattern": "^([A-Z]\\d){6}$"
-        }
+        "system": false,
+        "type": "text"
       },
       {
-        "id": "fx7ygdwj",
-        "name": "year",
-        "type": "number",
-        "system": false,
+        "hidden": false,
+        "id": "json3920655433",
+        "maxSize": 1,
+        "name": "units",
+        "presentable": false,
         "required": false,
-        "unique": true,
-        "options": {
-          "min": 1970,
-          "max": null
-        }
-      },
-      {
-        "id": "jpfp8ceh",
-        "name": "makeName",
-        "type": "text",
         "system": false,
-        "required": true,
-        "unique": true,
-        "options": {
-          "min": 2,
-          "max": 50,
-          "pattern": ""
-        }
-      },
-      {
-        "id": "nzuwys7y",
-        "name": "modelName",
-        "type": "text",
-        "system": false,
-        "required": true,
-        "unique": false,
-        "options": {
-          "min": 1,
-          "max": 50,
-          "pattern": ""
-        }
-      },
-      {
-        "id": "uv4y51rf",
-        "name": "ownerFirstName",
-        "type": "text",
-        "system": false,
-        "required": true,
-        "unique": false,
-        "options": {
-          "min": 1,
-          "max": 50,
-          "pattern": ""
-        }
-      },
-      {
-        "id": "k85p7nu5",
-        "name": "ownerLastName",
-        "type": "text",
-        "system": false,
-        "required": true,
-        "unique": false,
-        "options": {
-          "min": 1,
-          "max": 50,
-          "pattern": ""
-        }
+        "type": "json"
       }
     ],
-    "listRule": null,
-    "viewRule": null,
-    "createRule": null,
-    "updateRule": null,
-    "deleteRule": null,
-    "options": {
-      "query": "SELECT\n    ca.id        as id,\n    ca.sku       as sku,\n    ca.year      as year,\n    ma.name      as makeName,\n    mo.name      as modelName,\n    ow.firstName as ownerFirstName,\n    ow.lastName  as ownerLastName\n  FROM cars ca\n  JOIN makes ma ON ca.make = ma.id\n  LEFT JOIN models mo ON ca.model = mo.id\n  JOIN employees ow ON ca.owner = ow.id"
-    }
+    "indexes": [],
+    "system": false,
+    "viewQuery": "select\n  p.id,\n  p.sku,\n  sum(coalesce(s.units, 0)) as units\nfrom products p left join stocks s on s.product = p.id\ngroup by p.id\norder by sum(s.units) desc"
   }
 ]

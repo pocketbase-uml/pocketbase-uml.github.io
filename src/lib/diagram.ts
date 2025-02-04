@@ -45,10 +45,14 @@ const viewSystemAttributes = [
   { name: 'id', type: 'string', required: false, isRelation: false, options: {} }
 ];
 
+const viewSystemAttributeNames = viewSystemAttributes.map((attr) => attr.name);
+
 const collectionSystemAttributes = viewSystemAttributes.concat([
-  { name: 'created', type: 'date', required: false, isRelation: false, options: {} },
-  { name: 'updated', type: 'date', required: false, isRelation: false, options: {} }
+  { name: 'created', type: 'autodate', required: false, isRelation: false, options: {} },
+  { name: 'updated', type: 'autodate', required: false, isRelation: false, options: {} }
 ]);
+
+const collectionSystemAttributeNames = collectionSystemAttributes.map((attr) => attr.name);
 
 export async function loadPocketbaseCollections(connection: Connection | undefined) {
   if (!connection) throw new Error('Missing connection parameters');
@@ -87,21 +91,28 @@ export function generateMarkup(
             : [])
         ];
         attributes = attributes.concat(
-          fields.map((field) => ({
-            name: field.name,
-            type: field.type,
-            options: {
-              min: field.min,
-              max: field.max,
-              minSelect: field.minSelect,
-              maxSelect: field.maxSelect,
-              cascadeDelete: field.cascadeDelete,
-              collectionId: field.collectionId,
-              values: field.values
-            } as AttributeOptions,
-            required: field.required,
-            isRelation: field.type === 'relation'
-          }))
+          fields
+            .filter(
+              ({ name }) =>
+                !($isView
+                  ? viewSystemAttributeNames.includes(name)
+                  : collectionSystemAttributeNames.includes(name))
+            )
+            .map((field) => ({
+              name: field.name,
+              type: field.type,
+              options: {
+                min: field.min,
+                max: field.max,
+                minSelect: field.minSelect,
+                maxSelect: field.maxSelect,
+                cascadeDelete: field.cascadeDelete,
+                collectionId: field.collectionId,
+                values: field.values
+              } as AttributeOptions,
+              required: field.required,
+              isRelation: field.type === 'relation'
+            }))
         );
 
         return [id, { id: sanitizeId(id), name, attributes, isView: $isView }];
