@@ -64,7 +64,7 @@
     "js-base64": "^3.7.7",
     "lodash.throttle": "^4.1.1",
     "nomnoml": "^1.6.2",
-    "pocketbase": "^0.21.3",
+    "pocketbase": "^0.25.1",
     "prettier": "^3.3.2",
     "prettier-plugin-svelte": "^3.2.5",
     "sass": "^1.77.6",
