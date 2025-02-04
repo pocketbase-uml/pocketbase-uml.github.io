@@ -54,8 +54,9 @@ export async function loadPocketbaseCollections(connection: Connection | undefin
   if (!connection) throw new Error('Missing connection parameters');
   const { url, email, password } = connection;
   const pb = new PocketBase(url);
-  await pb.admins.authWithPassword(email, password);
-  return pb.collections.getFullList();
+  pb.collection('_superusers').authWithPassword(email, password);
+
+  return await pb.collections.getFullList();
 }
 
 const genericMarkupDirectives = Object.entries({
@@ -75,26 +76,36 @@ export function generateMarkup(
   { direction, algorithm, showSystemAttributes, markRequiredAttributes, showSelectValues }: Settings
 ) {
   const entities: Record<string, Entity> = Object.fromEntries(
-    collections.map(({ id, name, schema, $isView }) => {
-      let attributes: Attribute[] = [
-        ...(showSystemAttributes
-          ? $isView
-            ? viewSystemAttributes
-            : collectionSystemAttributes
-          : [])
-      ];
-      attributes = attributes.concat(
-        schema.map(({ name, type, options, required }) => ({
-          name,
-          type,
-          options: options as AttributeOptions,
-          required,
-          isRelation: type === 'relation'
-        }))
-      );
+    collections
+      .filter(({ system }) => !system) // Filter out system collections
+      .map(({ id, name, fields, $isView }) => {
+        let attributes: Attribute[] = [
+          ...(showSystemAttributes
+            ? $isView
+              ? viewSystemAttributes
+              : collectionSystemAttributes
+            : [])
+        ];
+        attributes = attributes.concat(
+          fields.map((field) => ({
+            name: field.name,
+            type: field.type,
+            options: {
+              min: field.min,
+              max: field.max,
+              minSelect: field.minSelect,
+              maxSelect: field.maxSelect,
+              cascadeDelete: field.cascadeDelete,
+              collectionId: field.collectionId,
+              values: field.values
+            } as AttributeOptions,
+            required: field.required,
+            isRelation: field.type === 'relation'
+          }))
+        );
 
-      return [id, { id: sanitizeId(id), name, attributes, isView: $isView }];
-    })
+        return [id, { id: sanitizeId(id), name, attributes, isView: $isView }];
+      })
   );
 
   const entityValues = Object.values(entities);
