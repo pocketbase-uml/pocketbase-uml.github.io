@@ -82,7 +82,7 @@ export function generateMarkup(
   const entities: Record<string, Entity> = Object.fromEntries(
     collections
       .filter(({ system }) => !system) // Filter out system collections
-      .map(({ id, name, fields, $isView }) => {
+      .map(({ id, name, schema, fields, $isView }) => {
         let attributes: Attribute[] = [
           ...(showSystemAttributes
             ? $isView
@@ -91,28 +91,31 @@ export function generateMarkup(
             : [])
         ];
         attributes = attributes.concat(
-          fields
+          (fields ?? schema)
             .filter(
               ({ name }) =>
                 !($isView
                   ? viewSystemAttributeNames.includes(name)
                   : collectionSystemAttributeNames.includes(name))
             )
-            .map((field) => ({
-              name: field.name,
-              type: field.type,
-              options: {
-                min: field.min,
-                max: field.max,
-                minSelect: field.minSelect,
-                maxSelect: field.maxSelect,
-                cascadeDelete: field.cascadeDelete,
-                collectionId: field.collectionId,
-                values: field.values
-              } as AttributeOptions,
-              required: field.required,
-              isRelation: field.type === 'relation'
-            }))
+            .map((field: any) => {
+              const options = field.options || field;
+              return ({
+                name: field.name,
+                type: field.type,
+                options: {
+                  min: options.min,
+                  max: options.max,
+                  minSelect: options.minSelect,
+                  maxSelect: options.maxSelect,
+                  cascadeDelete: options.cascadeDelete,
+                  collectionId: options.collectionId,
+                  values: options.values
+                } as AttributeOptions,
+                required: field.required,
+                isRelation: field.type === 'relation'
+              });
+            })
         );
 
         return [id, { id: sanitizeId(id), name, attributes, isView: $isView }];
