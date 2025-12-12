@@ -1,5 +1,5 @@
 import { browser } from '$app/environment';
-import { draw } from 'nomnoml';
+import { draw, renderSvg } from 'nomnoml';
 import PocketBase, { type CollectionModel } from 'pocketbase';
 import type { Settings } from './settings';
 import { sanitizeId, spaces, stripBackslashes } from './utils';
@@ -246,6 +246,18 @@ export function downloadPng(collections: CollectionModel[] | undefined, settings
   link.download = 'pb_diagram.png';
   link.href = hiddenCanvas.toDataURL('image/png');
   hiddenCanvas.remove();
+  link.click();
+  link.remove();
+}
+
+export function downloadSvg(collections: CollectionModel[] | undefined, settings: Settings) {
+  if (!(browser && collections)) return;
+  const markup = generateMarkup(collections, settings);
+  const svg = renderSvg(markup, document);
+  const blob = new Blob([svg], { type: 'image/svg+xml' });
+  const link = document.createElement('a');
+  link.download = 'pb_diagram.svg';
+  link.href = URL.createObjectURL(blob);
   link.click();
   link.remove();
 }

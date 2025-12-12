@@ -14,6 +14,7 @@
   import IconShare from './icons/IconShare.svelte';
 
   let root: HTMLDivElement;
+  let downloadDropdownOpen = false;
 
   export let url: string | undefined;
   export let loading: boolean;
@@ -22,7 +23,8 @@
   const dispatch = createEventDispatcher<{
     reload: undefined;
     fit: undefined;
-    download: undefined;
+    downloadPng: undefined;
+    downloadSvg: undefined;
     copy: undefined;
     share: undefined;
     settings: undefined;
@@ -38,9 +40,17 @@
       dispatch('copy');
   };
 
+  const handleClickOutside = (event: MouseEvent) => {
+    if (root && !root.contains(event.target as Node)) {
+      downloadDropdownOpen = false;
+    }
+  };
+
   window.addEventListener('keydown', handleKeyDown);
+  window.addEventListener('click', handleClickOutside);
   onDestroy(() => {
     window.removeEventListener('keydown', handleKeyDown);
+    window.removeEventListener('click', handleClickOutside);
   });
 </script>
 
@@ -74,9 +84,25 @@
     >
       <IconFit />
     </ActionButton>
-    <ActionButton title="Download image" disabled={noData} on:click={() => dispatch('download')}>
-      <IconDownload />
-    </ActionButton>
+    <div class="download-container">
+      <ActionButton 
+        title="Download diagram" 
+        disabled={noData} 
+        on:click={() => downloadDropdownOpen = !downloadDropdownOpen}
+      >
+        <IconDownload />
+      </ActionButton>
+      {#if downloadDropdownOpen}
+        <div class="download-dropdown" transition:fly={{ y: 5, duration: 100 }}>
+          <button class="dropdown-item" on:click={() => { dispatch('downloadPng'); downloadDropdownOpen = false; }}>
+            Download PNG
+          </button>
+          <button class="dropdown-item" on:click={() => { dispatch('downloadSvg'); downloadDropdownOpen = false; }}>
+            Download SVG
+          </button>
+        </div>
+      {/if}
+    </div>
     <ActionButton
       title={cannotCopy
         ? "Copying images to clipboard doesn't work in your browser"
@@ -162,6 +188,42 @@
   .actions {
     display: flex;
     align-items: center;
+  }
+
+  .download-container {
+    position: relative;
+  }
+
+  .download-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: $color-paper;
+    border: 1px solid $color-shade-3;
+    border-radius: 4px;
+    box-shadow: $box-shadow;
+    z-index: 10;
+    min-width: 120px;
+  }
+
+  .dropdown-item {
+    display: block;
+    width: 100%;
+    padding: 8px 12px;
+    border: none;
+    background: none;
+    text-align: left;
+    cursor: pointer;
+    font-size: $font-size-small;
+    &:hover {
+      background: $color-shade-1;
+    }
+    &:first-child {
+      border-radius: 3px 3px 0 0;
+    }
+    &:last-child {
+      border-radius: 0 0 3px 3px;
+    }
   }
 
   .loading-icon {
