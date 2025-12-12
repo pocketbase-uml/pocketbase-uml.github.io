@@ -15,7 +15,7 @@ describe('strip backslashes', () => {
 
 describe('spaces', () => {
   it('works with positive input', () => {
-    expect(spaces(3)).toBe('   ');
+    expect(spaces(3)).toBe('\u00A0\u00A0\u00A0');
   });
   it('works when input is 0', () => {
     expect(spaces(0)).toBe('');

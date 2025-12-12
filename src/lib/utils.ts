@@ -3,7 +3,7 @@ export function stripBackslashes(s: string) {
 }
 
 export function spaces(n: number) {
-  return n < 1 ? '' : ' '.repeat(n);
+  return n < 1 ? '' : '\u00A0'.repeat(n); // Use non-breaking spaces for better SVG compatibility
 }
 
 export function absRoundedHalfDiff(a: number, b: number) {

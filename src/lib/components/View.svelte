@@ -5,6 +5,7 @@
   import {
     copyPng,
     downloadPng,
+    downloadSvg,
     drawImage,
     loadPocketbaseCollections,
     validateCollections,
@@ -245,7 +246,8 @@
   noData={!data}
   on:reload={refetch}
   on:fit={fit}
-  on:download={() => downloadPng(data, $settings)}
+  on:downloadPng={() => downloadPng(data, $settings)}
+  on:downloadSvg={() => downloadSvg(data, $settings)}
   on:copy={handleCopy}
   on:share={handleShare}
   on:settings={() => (settingsVisible = !settingsVisible)}
