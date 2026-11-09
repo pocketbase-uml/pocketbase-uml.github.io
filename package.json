@@ -43,7 +43,8 @@
     "test:integration": "playwright test",
     "test:unit": "vitest run",
     "lint": "prettier --check . && eslint .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "prepublishOnly": "npm run build"
   },
   "bin": {
     "pocketbase-uml": "./cli.cjs"
