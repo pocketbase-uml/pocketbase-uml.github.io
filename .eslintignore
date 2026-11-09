@@ -1,6 +1,10 @@
 .DS_Store
 node_modules
 /build
+/app
+/db
+/playwright-report
+/test-results
 /.svelte-kit
 /package
 .env

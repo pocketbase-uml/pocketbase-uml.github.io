@@ -16,7 +16,7 @@
   ],
   "files": [
     "app",
-    "cli.js",
+    "cli.cjs",
     "README.md",
     "LICENSE"
   ],
@@ -63,7 +63,7 @@
     "eslint-plugin-svelte": "^2.41.0",
     "js-base64": "^3.7.7",
     "lodash.throttle": "^4.1.1",
-    "nomnoml": "^1.6.2",
+    "nomnoml": "^1.7.0",
     "pocketbase": "^0.25.1",
     "prettier": "^3.3.2",
     "prettier-plugin-svelte": "^3.2.5",

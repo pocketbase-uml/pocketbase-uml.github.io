@@ -58,9 +58,38 @@ export async function loadPocketbaseCollections(connection: Connection | undefin
   if (!connection) throw new Error('Missing connection parameters');
   const { url, email, password } = connection;
   const pb = new PocketBase(url);
-  pb.collection('_superusers').authWithPassword(email, password);
+  await pb.collection('_superusers').authWithPassword(email, password);
 
   return await pb.collections.getFullList();
+}
+
+type LegacyField = {
+  name: string;
+  type: string;
+  required?: boolean;
+  options?: Record<string, unknown>;
+};
+
+type LegacyCollection = Omit<CollectionModel, 'fields'> & { schema: LegacyField[] };
+
+/**
+ * Collections exported from PocketBase < v0.23 have a `schema` array instead of `fields`,
+ * with field-specific settings nested under `options`. Convert them to the current shape.
+ */
+export function normalizeCollections(collections: unknown): CollectionModel[] {
+  if (!Array.isArray(collections)) throw new Error('Collections must be an array');
+  return collections.map((collection: CollectionModel | LegacyCollection) => {
+    if ('fields' in collection && Array.isArray(collection.fields))
+      return collection as CollectionModel;
+    if ('schema' in collection && Array.isArray(collection.schema)) {
+      const { schema, ...rest } = collection;
+      return {
+        ...rest,
+        fields: schema.map(({ options, ...field }) => ({ ...options, ...field }))
+      } as CollectionModel;
+    }
+    throw new Error(`Collection ${collection?.name} has no fields`);
+  });
 }
 
 const genericMarkupDirectives = Object.entries({
@@ -82,7 +111,8 @@ export function generateMarkup(
   const entities: Record<string, Entity> = Object.fromEntries(
     collections
       .filter(({ system }) => !system) // Filter out system collections
-      .map(({ id, name, fields, $isView }) => {
+      .map(({ id, name, type, fields }) => {
+        const $isView = type === 'view';
         let attributes: Attribute[] = [
           ...(showSystemAttributes
             ? $isView
@@ -126,8 +156,14 @@ export function generateMarkup(
     for (const attribute of attributes) {
       if (!attribute.isRelation) continue;
       const { collectionId, cascadeDelete } = attribute.options;
-      const to = entities[collectionId as string].name;
-      attribute.type = to;
+      const target = entities[collectionId as string];
+      if (!target) {
+        // Relation to a system collection (i.e. _superusers) or one missing from the export:
+        // keep the attribute, but don't draw an arrow to a non-existent entity
+        attribute.type = 'relation';
+        continue;
+      }
+      attribute.type = target.name;
       relations.push({
         from: sanitizeId(id),
         to: sanitizeId(collectionId),
@@ -195,11 +231,12 @@ export function generateMarkup(
   }
 
   if (showSelectValues) {
-    for (const { name: entityName, attributes } of entityValues) {
+    let selectIndex = 0;
+    for (const { id: entityId, attributes } of entityValues) {
       for (const { type, name: attributeName, options } of attributes) {
         if (type !== 'select') continue;
-        const id = `${entityName.replace('_', '')}${attributeName}`;
-        result += `[${entityName}]+->[<select id=${id}>«select»;${attributeName}|${(
+        const id = `select${selectIndex++}`;
+        result += `[${entityId}]+->[<select id=${id}>«select»;${attributeName}|${(
           options.values as string[]
         ).join(';')}]\n`;
       }
@@ -223,10 +260,15 @@ export function drawImage(
   );
 }
 
+/**
+ * Normalizes the given collections and throws if they can't be drawn.
+ * Returns the normalized collections.
+ */
 export function validateCollections(object: unknown) {
+  const collections = normalizeCollections(object);
   const hiddenCanvas = document.createElement('canvas');
   try {
-    drawImage(hiddenCanvas, object as CollectionModel[], {
+    drawImage(hiddenCanvas, collections, {
       algorithm: 'longest-path',
       direction: 'down',
       markRequiredAttributes: false,
@@ -236,6 +278,7 @@ export function validateCollections(object: unknown) {
   } finally {
     hiddenCanvas.remove();
   }
+  return collections;
 }
 
 export function downloadPng(collections: CollectionModel[] | undefined, settings: Settings) {

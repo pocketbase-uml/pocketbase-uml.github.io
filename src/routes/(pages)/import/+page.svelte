@@ -32,8 +32,7 @@
 
   const handleSubmit = () => {
     try {
-      const data = JSON.parse(code);
-      validateCollections(data);
+      const data = validateCollections(JSON.parse(code));
       goto(`/view#${encode(JSON.stringify(data))}`);
     } catch {
       error = true;
@@ -70,8 +69,9 @@
 {#if error}
   <NotificationModal title="Error" on:dismiss={() => (error = false)}>
     <p>
-      The provided code is either an invalid JSON or comes from a newer server version and
-      PocketBaseUML doesn't know how to draw its diagram.
+      The provided code is either an invalid JSON or a collections export PocketBaseUML doesn't know
+      how to draw. Make sure you paste the full array exported from your PocketBase dashboard
+      (Settings → Export collections).
     </p>
   </NotificationModal>
 {/if}

@@ -42,9 +42,7 @@
 
   try {
     if (location.hash) {
-      const hashData = JSON.parse(decode(location.hash.slice(1)));
-      validateCollections(data);
-      data = hashData;
+      data = validateCollections(JSON.parse(decode(location.hash.slice(1))));
     } else {
       connection = JSON.parse(decode(localStorage.getItem(LOCAL_STORAGE_CONNECTION_KEY) || ''));
       if (!connection?.url) throw new Error();

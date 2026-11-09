@@ -23,7 +23,9 @@
       if (connection) {
         ({ url, email, password } = JSON.parse(decode(connection)));
       }
-    } catch {}
+    } catch {
+      // Ignore invalid or outdated stored connection data
+    }
   });
 
   const handleSubmit = () => {
@@ -51,7 +53,7 @@
         required
         placeholder="i.e. {secure ? 'https://abcd-...-cdef.eu.ngrok.io' : 'http://localhost:8090'}"
       />
-      <TextInput bind:value={email} label="Admin" type="email" required />
+      <TextInput bind:value={email} label="Superuser email" type="email" required />
       <TextInput bind:value={password} label="Password" type="password" required />
       <SubmitButton large title="View diagram" />
     </form>
