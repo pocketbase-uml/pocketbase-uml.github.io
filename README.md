@@ -44,9 +44,14 @@ which in turn will help maintain my vested interest in keeping the project alive
 
 ## Hiring the author
 
-If you want to hire my services, don’t hesitate to drop me a line at the email address listed in my [GitHub profile](https://github.com/icflorescu).
-I’m currently getting a constant flow of approaches, some of them relevant, others not so relevant.
-Mentioning “PocketBaseUML” in your text would help me prioritize your message.
+I'm a hands-on [fractional CTO](https://github.com/icflorescu), product builder and open-source author based in Bucharest, Romania, building for the web since 1998.
+I take software products from a blank repo to production and stay to run them for years: I've been the technical partner behind [LeasingSH.ro](https://www.leasingsh.ro/) since 2013, and in 2026 I rebuilt [swapp.ro](https://swapp.ro/), my own invoicing and accounting product for Romanian freelancers, from scratch.
+I also wrote [Mantine DataTable](https://icflorescu.github.io/mantine-datatable/), [Mantine ContextMenu](https://icflorescu.github.io/mantine-contextmenu/) and [tRPC-SvelteKit](https://icflorescu.github.io/trpc-sveltekit).
+
+I'm open to fractional CTO and technical partner roles for early-stage products, sweat-equity partnerships where I own the technical side, and selected hands-on work, ideally with TypeScript, TanStack, React, PostgreSQL and the rest of [my current tech stack](https://github.com/icflorescu#current-tech-stack).
+
+If that sounds like what you need, drop me a line at the email address listed in my [GitHub profile](https://github.com/icflorescu) and we'll schedule a meeting on [cal.com/icflorescu](https://cal.com/icflorescu).
+I get a constant flow of approaches, so mentioning "PocketBaseUML" in your message will help me prioritize it.
 
 ## License
 
