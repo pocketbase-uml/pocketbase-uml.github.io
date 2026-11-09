@@ -1,8 +1,12 @@
 <script lang="ts">
-  import { DEFAULT_ICON_SIZE, DEFAULT_ICON_STROKE } from '$lib/config';
+  import { DEFAULT_ICON_SIZE, DEFAULT_ICON_STROKE } from '#lib/config.ts';
 
-  export let size: number | string = DEFAULT_ICON_SIZE;
-  export let stroke: number | string = DEFAULT_ICON_STROKE;
+  interface Props {
+    size?: number | string;
+    stroke?: number | string;
+  }
+
+  let { size = DEFAULT_ICON_SIZE, stroke = DEFAULT_ICON_STROKE }: Props = $props();
 </script>
 
 <svg

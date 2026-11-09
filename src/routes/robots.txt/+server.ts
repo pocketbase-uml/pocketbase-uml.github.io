@@ -1,4 +1,4 @@
-import { PUBLIC_URL } from '$lib/config';
+import { PUBLIC_URL } from '#lib/config.ts';
 import type { RequestHandler } from './$types';
 
 export const prerender = true;

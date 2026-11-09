@@ -1,5 +1,11 @@
 <script lang="ts">
-  import '$lib/style/global.scss';
+  import 'the-new-css-reset/css/reset.css';
+  import '#lib/style/global.scss';
+  interface Props {
+    children?: import('svelte').Snippet;
+  }
+
+  let { children }: Props = $props();
 </script>
 
 <svelte:head>
@@ -11,4 +17,4 @@
   />
 </svelte:head>
 
-<slot />
+{@render children?.()}

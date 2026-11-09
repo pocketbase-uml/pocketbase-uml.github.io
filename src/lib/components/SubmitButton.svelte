@@ -2,9 +2,13 @@
   import Button from './Button.svelte';
   import IconArrowRight from './icons/IconArrowRight.svelte';
 
-  export let title: string;
-  export let large = false;
-  export let disabled = false;
+  interface Props {
+    title: string;
+    large?: boolean;
+    disabled?: boolean;
+  }
+
+  let { title, large = false, disabled = false }: Props = $props();
 </script>
 
 <Button type="submit" {large} {disabled}>

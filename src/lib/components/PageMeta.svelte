@@ -1,14 +1,20 @@
 <script lang="ts">
-  import { PUBLIC_URL } from '$lib/config';
+  import { PUBLIC_URL } from '#lib/config.ts';
 
   const image = `${PUBLIC_URL}/pocketbase-uml--og.png`;
-  export let title: string | undefined = undefined;
-  export let description =
-    'The PocketBase visual perspective: a free, open-source web application that generates UML diagrams from PocketBase databases';
-  export let keywords =
-    'pocketbase, uml, diagram, database, schema, model, visualization, generator, free, open-source';
+  interface Props {
+    title?: string | undefined;
+    description?: string;
+    keywords?: string;
+  }
 
-  const titleValue = `${title ? `${title} | ` : ''}PocketBaseUML`;
+  let {
+    title = undefined,
+    description = 'The PocketBase visual perspective: a free, open-source web application that generates UML diagrams from PocketBase databases',
+    keywords = 'pocketbase, uml, diagram, database, schema, model, visualization, generator, free, open-source'
+  }: Props = $props();
+
+  const titleValue = $derived(`${title ? `${title} | ` : ''}PocketBaseUML`);
 </script>
 
 <svelte:head>

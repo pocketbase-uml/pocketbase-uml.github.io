@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { createEventDispatcher, onDestroy } from 'svelte';
   import { fly } from 'svelte/transition';
   import ActionButton from './ActionButton.svelte';
   import IconBraces from './icons/IconBraces.svelte';
@@ -13,21 +12,31 @@
   import IconSettings from './icons/IconSettings.svelte';
   import IconShare from './icons/IconShare.svelte';
 
-  let root: HTMLDivElement;
+  interface Props {
+    url: string | undefined;
+    loading: boolean;
+    noData: boolean;
+    onreload: () => void;
+    onfit: () => void;
+    ondownload: () => void;
+    oncopy: () => void;
+    onshare: () => void;
+    onsettings: () => void;
+    onclose: () => void;
+  }
 
-  export let url: string | undefined;
-  export let loading: boolean;
-  export let noData: boolean;
-
-  const dispatch = createEventDispatcher<{
-    reload: undefined;
-    fit: undefined;
-    download: undefined;
-    copy: undefined;
-    share: undefined;
-    settings: undefined;
-    close: undefined;
-  }>();
+  let {
+    url,
+    loading,
+    noData,
+    onreload,
+    onfit,
+    ondownload,
+    oncopy,
+    onshare,
+    onsettings,
+    onclose
+  }: Props = $props();
 
   const cannotCopy = typeof ClipboardItem === 'undefined';
   const canCopy = !cannotCopy;
@@ -35,16 +44,15 @@
 
   const handleKeyDown = (event: KeyboardEvent) => {
     if (canCopy && event.key === 'c' && ((isMac && event.metaKey) || (!isMac && event.ctrlKey)))
-      dispatch('copy');
+      oncopy();
   };
 
-  window.addEventListener('keydown', handleKeyDown);
-  onDestroy(() => {
-    window.removeEventListener('keydown', handleKeyDown);
-  });
+  const flyDown = (node: Element) => fly(node, { y: -node.clientHeight });
 </script>
 
-<div bind:this={root} class="root" transition:fly={{ y: -root.clientHeight }}>
+<svelte:window onkeydown={handleKeyDown} />
+
+<div class="root" transition:flyDown>
   <div class="logo">
     <IconLogoDrawn size="1.5em" stroke={1.25} />
     <div class="logo-text">Pocket<strong>Base</strong>UML</div>
@@ -63,18 +71,14 @@
     <ActionButton
       title={url ? 'Reload' : 'Reloads collections when connected to a server'}
       disabled={loading || !url}
-      on:click={() => dispatch('reload')}
+      onclick={onreload}
     >
       <div class="loading-icon" class:loading><IconRefresh /></div>
     </ActionButton>
-    <ActionButton
-      title="Fit to window (Double-click)"
-      disabled={noData}
-      on:click={() => dispatch('fit')}
-    >
+    <ActionButton title="Fit to window (Double-click)" disabled={noData} onclick={onfit}>
       <IconFit />
     </ActionButton>
-    <ActionButton title="Download image" disabled={noData} on:click={() => dispatch('download')}>
+    <ActionButton title="Download image" disabled={noData} onclick={ondownload}>
       <IconDownload />
     </ActionButton>
     <ActionButton
@@ -82,7 +86,7 @@
         ? "Copying images to clipboard doesn't work in your browser"
         : `Copy image (${isMac ? '⌘C' : 'Ctrl+C'})`}
       disabled={noData || cannotCopy}
-      on:click={() => dispatch('copy')}
+      onclick={oncopy}
     >
       <IconCopy />
     </ActionButton>
@@ -91,21 +95,21 @@
         ? "Creating shareable links doesn't work in your browser"
         : 'Create shareable link'}
       disabled={noData || cannotCopy}
-      on:click={() => dispatch('share')}
+      onclick={onshare}
     >
       <IconShare />
     </ActionButton>
-    <ActionButton title="Settings" on:click={() => dispatch('settings')}>
+    <ActionButton title="Settings" onclick={onsettings}>
       <IconSettings />
     </ActionButton>
-    <ActionButton title="Close" on:click={() => dispatch('close')}>
+    <ActionButton title="Close" onclick={onclose}>
       <IconClose />
     </ActionButton>
   </div>
 </div>
 
 <style lang="scss">
-  @import 'src/lib/style/variables.scss';
+  @use '../style/variables' as *;
 
   .root {
     display: flex;

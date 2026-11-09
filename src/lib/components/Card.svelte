@@ -1,7 +1,17 @@
-<div><slot /></div>
+<script>
+  /**
+   * @typedef {Object} Props
+   * @property {import('svelte').Snippet} [children]
+   */
+
+  /** @type {Props} */
+  let { children } = $props();
+</script>
+
+<div>{@render children?.()}</div>
 
 <style lang="scss">
-  @import 'src/lib/style/variables.scss';
+  @use '../style/variables' as *;
 
   div {
     padding: 1.875em;

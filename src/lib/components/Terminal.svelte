@@ -2,8 +2,12 @@
   import IconCheck from './icons/IconCheck.svelte';
   import IconCopy from './icons/IconCopy.svelte';
 
-  export let command: string;
-  let copied = false;
+  interface Props {
+    command: string;
+  }
+
+  let { command }: Props = $props();
+  let copied = $state(false);
 
   function handleCopyClick() {
     navigator.clipboard.writeText(command);
@@ -14,14 +18,14 @@
 
 <div class="root">
   <div class="header">
-    <div class="button close" />
-    <div class="button minimize" />
-    <div class="button maximize" />
+    <div class="button close"></div>
+    <div class="button minimize"></div>
+    <div class="button maximize"></div>
   </div>
   <div class="content">
     <code class="prefix">$</code>
     <code class="command">{command}</code>
-    <button class="copy" title="Copy to clipboard" on:click={handleCopyClick} disabled={copied}>
+    <button class="copy" title="Copy to clipboard" onclick={handleCopyClick} disabled={copied}>
       {#if copied}
         <IconCheck />
       {:else}
@@ -32,7 +36,8 @@
 </div>
 
 <style lang="scss">
-  @import 'src/lib/style/variables';
+  @use 'sass:color';
+  @use '../style/variables' as *;
 
   .root {
     border-radius: $border-radius * 2;
@@ -44,7 +49,7 @@
     display: flex;
     align-items: center;
     height: 1.5em;
-    background-color: lighten($color-text, 20%);
+    background-color: color.adjust($color-text, $lightness: 20%);
   }
 
   .button {
@@ -93,7 +98,7 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    color: darken($color-shade-2, 30%);
+    color: color.adjust($color-shade-2, $lightness: -30%);
     background: transparent;
     border-radius: 50%;
     transition:
@@ -101,11 +106,11 @@
       background 0.2s;
     @media (pointer: fine) {
       &:hover {
-        color: darken($color-shade-2, 10%);
+        color: color.adjust($color-shade-2, $lightness: -10%);
         background: rgba($color-shade-2, 20%);
       }
       &:active {
-        color: darken($color-shade-2, 40%);
+        color: color.adjust($color-shade-2, $lightness: -40%);
         background: transparent;
         transform: translateY(1px);
       }

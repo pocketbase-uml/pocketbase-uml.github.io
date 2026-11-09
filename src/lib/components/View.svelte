@@ -1,7 +1,8 @@
 <script lang="ts">
+  import { resolve } from '$app/paths';
   import { goto } from '$app/navigation';
-  import Toolbar from '$lib/components/Toolbar.svelte';
-  import { LOCAL_STORAGE_CONNECTION_KEY, MAX_ZOOM, PUBLIC_URL } from '$lib/config';
+  import Toolbar from '#lib/components/Toolbar.svelte';
+  import { LOCAL_STORAGE_CONNECTION_KEY, MAX_ZOOM, PUBLIC_URL } from '#lib/config.ts';
   import {
     copyPng,
     downloadPng,
@@ -9,15 +10,15 @@
     loadPocketbaseCollections,
     validateCollections,
     type Connection
-  } from '$lib/diagram';
-  import { addNotification } from '$lib/notifications';
-  import { ALGORITHMS, DIRECTIONS, settings } from '$lib/settings';
-  import { absRoundedHalfDiff, constrain } from '$lib/utils';
+  } from '#lib/diagram.ts';
+  import { addNotification } from '#lib/notifications.svelte.ts';
+  import { ALGORITHMS, DIRECTIONS, settings } from '#lib/settings.svelte.ts';
+  import { absRoundedHalfDiff, constrain } from '#lib/utils.ts';
   import { createQuery } from '@tanstack/svelte-query';
   import { decode, encode } from 'js-base64';
   import throttle from 'lodash.throttle';
   import type { CollectionModel } from 'pocketbase';
-  import { onDestroy } from 'svelte';
+  import type { Attachment } from 'svelte/attachments';
   import { fade } from 'svelte/transition';
   import ConfirmationModal from './ConfirmationModal.svelte';
   import Notifier from './Notifier.svelte';
@@ -26,50 +27,55 @@
   import Switch from './Switch.svelte';
   import Zoom from './Zoom.svelte';
 
-  let view: HTMLDivElement;
-  let canvas: HTMLCanvasElement;
+  let view: HTMLDivElement | undefined = $state();
+  let canvas: HTMLCanvasElement | undefined = $state();
 
-  let connection: Connection | undefined;
-  let data: CollectionModel[] | undefined;
-  let error = false;
-  let closing = false;
-  let settingsVisible = false;
+  let closing = $state(false);
+  let settingsVisible = $state(false);
 
   const close = (forget?: boolean) => {
     if (forget) localStorage.removeItem(LOCAL_STORAGE_CONNECTION_KEY);
-    goto('/', { replaceState: true });
+    goto(resolve(''), { replaceState: true });
   };
 
-  try {
-    if (location.hash) {
-      data = validateCollections(JSON.parse(decode(location.hash.slice(1))));
-    } else {
-      connection = JSON.parse(decode(localStorage.getItem(LOCAL_STORAGE_CONNECTION_KEY) || ''));
-      if (!connection?.url) throw new Error();
+  // Either a collections snapshot passed in the URL hash, or a connection to a live server
+  const getSource = (): { snapshot?: CollectionModel[]; connection?: Connection } => {
+    try {
+      if (location.hash) {
+        return { snapshot: validateCollections(JSON.parse(decode(location.hash.slice(1)))) };
+      }
+      const connection: Connection = JSON.parse(
+        decode(localStorage.getItem(LOCAL_STORAGE_CONNECTION_KEY) || '')
+      );
+      if (connection?.url) return { connection };
+    } catch {
+      // Invalid snapshot or stored connection; handled below
     }
-  } catch {
     close();
-  }
+    return {};
+  };
+  const { snapshot, connection } = getSource();
 
-  const query = createQuery({
-    queryKey: [connection],
+  const query = createQuery(() => ({
+    queryKey: ['collections', connection],
     queryFn: () => loadPocketbaseCollections(connection),
     enabled: !!connection,
-    refetchOnWindowFocus: () => !error
-  });
+    refetchOnWindowFocus: (): boolean => !query.isError
+  }));
 
-  $: error = $query.isError;
-  $: if ($query.data) data = $query.data;
+  const data = $derived(query.data ?? snapshot);
+  const error = $derived(query.isError);
 
-  let dragging = false;
-  let panX = 0;
-  let panY = 0;
+  let panX = $state(0);
+  let panY = $state(0);
   let minZoom = 1;
-  let zoom = 1;
+  let zoom = $state(1);
+  let dragging = $state(false);
 
   const fit = () => {
+    if (!view) return;
     const hiddenCanvas = document.createElement('canvas');
-    drawImage(hiddenCanvas, data, $settings);
+    drawImage(hiddenCanvas, data, settings);
     const { width, height } = hiddenCanvas;
     const { clientWidth: viewWidth, clientHeight: viewHeight } = view;
     minZoom = Math.min(viewWidth / width, viewHeight / height);
@@ -79,14 +85,17 @@
     zoom = minZoom;
   };
 
-  let neverDrawn = true;
-  $: if (canvas && !$query.isFetching && data) {
-    if (neverDrawn) {
-      fit();
-      neverDrawn = false;
+  // Fit the diagram to the window when first drawn and whenever the layout settings change
+  let needsFit = true;
+  $effect(() => {
+    if (canvas && !query.isFetching && data) {
+      if (needsFit) {
+        needsFit = false;
+        fit();
+      }
+      drawImage(canvas, data, settings, zoom);
     }
-    drawImage(canvas, data, $settings, zoom);
-  }
+  });
 
   const handlePointerDownOrEnter = (e: PointerEvent) => {
     if (e.buttons === 1) dragging = true;
@@ -100,8 +109,8 @@
     if (dragging) {
       const { movementX, movementY } = e;
 
-      const { clientWidth: viewWidth, clientHeight: viewHeight } = view;
-      const { width: canvasWidth, height: canvasHeight } = canvas;
+      const { clientWidth: viewWidth, clientHeight: viewHeight } = view!;
+      const { width: canvasWidth, height: canvasHeight } = canvas!;
       const halfWidthDiff = absRoundedHalfDiff(viewWidth, canvasWidth);
       const halfHeightDiff = absRoundedHalfDiff(viewHeight, canvasHeight);
 
@@ -110,15 +119,17 @@
     }
   };
 
-  const handleWheel = ({ pageX, pageY, deltaY: scroll }: WheelEvent) => {
+  const handleWheel = (event: WheelEvent) => {
+    event.preventDefault();
+    const { pageX, pageY, deltaY: scroll } = event;
     const newZoom = constrain(zoom * (1 - scroll / 1000), minZoom, MAX_ZOOM);
     const {
       clientWidth: viewWidth,
       clientHeight: viewHeight,
       offsetTop: viewOffsetTop,
       offsetLeft: viewOffsetLeft
-    } = view;
-    const { width: canvasWidth, height: canvasHeight } = canvas;
+    } = view!;
+    const { width: canvasWidth, height: canvasHeight } = canvas!;
     const pointerX = pageX - viewOffsetLeft;
     const pointerY = pageY - viewOffsetTop;
     const zoomDelta = (newZoom - zoom) / zoom;
@@ -153,8 +164,8 @@
           clientHeight: viewHeight,
           offsetTop: viewOffsetTop,
           offsetLeft: viewOffsetLeft
-        } = view;
-        const { width: canvasWidth, height: canvasHeight } = canvas;
+        } = view!;
+        const { width: canvasWidth, height: canvasHeight } = canvas!;
         const pointerX = (x1 + x2) / 2 - viewOffsetLeft;
         const pointerY = (y1 + y2) / 2 - viewOffsetTop;
         const zoomDelta = (newZoom - zoom) / zoom;
@@ -181,22 +192,25 @@
     if (touches.length === 2) previousFingersDistance = 0;
   };
 
+  // Wheel listeners are passive by default; this one must be able to prevent page scrolling
+  const wheelZoom: Attachment<HTMLElement> = (node) => {
+    node.addEventListener('wheel', handleWheel, { passive: false });
+    return () => node.removeEventListener('wheel', handleWheel);
+  };
+
   const handleWindowResize = throttle(fit, 200, { trailing: true });
-  window.addEventListener('resize', handleWindowResize);
-  onDestroy(() => {
-    window.removeEventListener('resize', handleWindowResize);
-  });
+  $effect(() => () => handleWindowResize.cancel());
 
   const refetch = () => {
-    $query.refetch();
+    query.refetch();
   };
 
   const handleSettingsChange = () => {
-    neverDrawn = true;
+    needsFit = true;
   };
 
   const handleCopy = () => {
-    copyPng(data, $settings);
+    copyPng(data, settings);
     addNotification('Image copied to clipboard');
   };
 
@@ -206,69 +220,71 @@
   };
 </script>
 
+<svelte:window onresize={handleWindowResize} />
+
 {#if settingsVisible}
-  <Settings on:dismiss={() => (settingsVisible = false)}>
+  <Settings ondismiss={() => (settingsVisible = false)}>
     <RadioGroup
       title="Graph direction"
-      bind:value={$settings.direction}
+      bind:value={settings.direction}
       options={DIRECTIONS}
-      on:change={handleSettingsChange}
+      onchange={handleSettingsChange}
     />
     <RadioGroup
       title="Graph algorithm"
-      bind:value={$settings.algorithm}
+      bind:value={settings.algorithm}
       options={ALGORITHMS}
-      on:change={handleSettingsChange}
+      onchange={handleSettingsChange}
     />
     <Switch
       title="Show system attributes"
-      bind:value={$settings.showSystemAttributes}
-      on:change={handleSettingsChange}
+      bind:value={settings.showSystemAttributes}
+      onchange={handleSettingsChange}
     />
     <Switch
       title="Mark required attributes with (*)"
-      bind:value={$settings.markRequiredAttributes}
-      on:change={handleSettingsChange}
+      bind:value={settings.markRequiredAttributes}
+      onchange={handleSettingsChange}
     />
     <Switch
       title="Show select values"
-      bind:value={$settings.showSelectValues}
-      on:change={handleSettingsChange}
+      bind:value={settings.showSelectValues}
+      onchange={handleSettingsChange}
     />
   </Settings>
 {/if}
 <Toolbar
   url={connection?.url}
-  loading={$query.isFetching}
+  loading={query.isFetching}
   noData={!data}
-  on:reload={refetch}
-  on:fit={fit}
-  on:download={() => downloadPng(data, $settings)}
-  on:copy={handleCopy}
-  on:share={handleShare}
-  on:settings={() => (settingsVisible = !settingsVisible)}
-  on:close={() => (closing = true)}
+  onreload={refetch}
+  onfit={fit}
+  ondownload={() => downloadPng(data, settings)}
+  oncopy={handleCopy}
+  onshare={handleShare}
+  onsettings={() => (settingsVisible = !settingsVisible)}
+  onclose={() => (closing = true)}
 />
 <div
   role="presentation"
   bind:this={view}
   class:dragging
-  on:dblclick={fit}
-  on:pointerdown={handlePointerDownOrEnter}
-  on:pointerenter={handlePointerDownOrEnter}
-  on:pointerup={handlePointerUpOrLeave}
-  on:pointerleave={handlePointerUpOrLeave}
-  on:pointermove={handlePointerMove}
-  on:wheel|preventDefault={handleWheel}
-  on:touchmove={handleTouchMove}
-  on:touchend={handleTouchEnd}
+  ondblclick={fit}
+  onpointerdown={handlePointerDownOrEnter}
+  onpointerenter={handlePointerDownOrEnter}
+  onpointerup={handlePointerUpOrLeave}
+  onpointerleave={handlePointerUpOrLeave}
+  onpointermove={handlePointerMove}
+  {@attach wheelZoom}
+  ontouchmove={handleTouchMove}
+  ontouchend={handleTouchEnd}
 >
   {#if data}
     <canvas
       bind:this={canvas}
       style:transform="translate3d({panX}px, {panY}px, 0)"
       transition:fade={{ duration: 100 }}
-    />
+    ></canvas>
     <Zoom value={zoom} />
   {/if}
   <Notifier />
@@ -278,8 +294,8 @@
     title="Connection error"
     yesButtonTitle="Abort"
     noButtonTitle="Retry"
-    on:yes={() => close()}
-    on:no={refetch}
+    onyes={() => close()}
+    onno={refetch}
   >
     <p>Something went wrong while trying to access PocketBase.</p>
     <p>
@@ -289,13 +305,13 @@
   </ConfirmationModal>
 {/if}
 {#if closing}
-  <ConfirmationModal title="Closing" on:yes={() => close(true)} on:no={() => (closing = false)}>
+  <ConfirmationModal title="Closing" onyes={() => close(true)} onno={() => (closing = false)}>
     <p>Are you sure you want to close the {connection ? 'connection' : 'diagram'}?</p>
   </ConfirmationModal>
 {/if}
 
 <style lang="scss">
-  @import 'src/lib/style/variables.scss';
+  @use '../style/variables' as *;
 
   div {
     position: fixed;

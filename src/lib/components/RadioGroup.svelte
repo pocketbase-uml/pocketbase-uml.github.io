@@ -1,23 +1,24 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
+  interface Props {
+    title: string;
+    value: string;
+    options: { value: string; title: string }[];
+    onchange?: () => void;
+  }
 
-  export let title: string;
-  export let value: string;
-  export let options: { value: string; title: string }[];
-
-  const dispatch = createEventDispatcher<{ change: undefined }>();
+  let { title, value = $bindable(), options, onchange }: Props = $props();
 
   const handleChange = (event: Event) => {
     value = (event.target as HTMLInputElement).value;
-    dispatch('change');
+    onchange?.();
   };
 </script>
 
 <div class="root">
   <div class="title">
-    <div class="title-prefix" />
+    <div class="title-prefix"></div>
     <div class="title-text">{title}</div>
-    <div class="title-suffix" />
+    <div class="title-suffix"></div>
   </div>
   <div class="options">
     {#each options as option (option.value)}
@@ -27,9 +28,9 @@
           name={title}
           value={option.value}
           checked={value === option.value}
-          on:change={handleChange}
+          onchange={handleChange}
         />
-        <span class="radio" />
+        <span class="radio"></span>
         <span class="option-title">{option.title}</span>
       </label>
     {/each}
@@ -37,7 +38,8 @@
 </div>
 
 <style lang="scss">
-  @import 'src/lib/style/variables.scss';
+  @use 'sass:color';
+  @use '../style/variables' as *;
 
   .root {
     margin: -0.25em 0 0.25em;
@@ -138,7 +140,7 @@
     transition: background 0.25s;
     @media (pointer: fine) {
       label:hover & {
-        background: darken($color-shade-3, 5%);
+        background: color.adjust($color-shade-3, $lightness: -5%);
       }
     }
     &:after {
@@ -160,7 +162,7 @@
     background: $color-success;
     @media (pointer: fine) {
       label:hover & {
-        background: darken($color-success, 5%);
+        background: color.adjust($color-success, $lightness: -5%);
       }
     }
     &:after {

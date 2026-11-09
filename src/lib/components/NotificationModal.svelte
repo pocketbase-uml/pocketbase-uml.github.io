@@ -1,18 +1,21 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
   import Button from './Button.svelte';
   import Modal from './Modal.svelte';
 
-  export let title: string;
-  export let buttonTitle = 'OK';
+  interface Props {
+    title: string;
+    buttonTitle?: string;
+    ondismiss: () => void;
+    children?: import('svelte').Snippet;
+  }
 
-  const dispatch = createEventDispatcher<{ dismiss: undefined }>();
+  let { title, buttonTitle = 'OK', ondismiss, children }: Props = $props();
 </script>
 
-<Modal {title} on:dismiss>
-  <slot />
+<Modal {title} {ondismiss}>
+  {@render children?.()}
   <footer>
-    <Button on:click={() => dispatch('dismiss')}>{buttonTitle}</Button>
+    <Button onclick={ondismiss}>{buttonTitle}</Button>
   </footer>
 </Modal>
 

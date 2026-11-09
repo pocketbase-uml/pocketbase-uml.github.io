@@ -1,25 +1,27 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
+  interface Props {
+    value: boolean;
+    title: string;
+    onchange?: () => void;
+  }
 
-  export let value: boolean;
-  export let title: string;
-
-  const dispatch = createEventDispatcher<{ change: undefined }>();
+  let { value = $bindable(), title, onchange }: Props = $props();
 
   const handleChange = () => {
     value = !value;
-    dispatch('change');
+    onchange?.();
   };
 </script>
 
 <label>
-  <input type="checkbox" checked={value} on:change={handleChange} />
-  <span class="slider" />
+  <input type="checkbox" checked={value} onchange={handleChange} />
+  <span class="slider"></span>
   <span>{title}</span>
 </label>
 
 <style lang="scss">
-  @import 'src/lib/style/variables';
+  @use 'sass:color';
+  @use '../style/variables' as *;
 
   label {
     font-size: $font-size-small;
@@ -55,7 +57,7 @@
     transition: background 0.25s;
     @media (pointer: fine) {
       label:hover & {
-        background: darken($color-shade-3, 5%);
+        background: color.adjust($color-shade-3, $lightness: -5%);
       }
     }
     &:after {
@@ -75,7 +77,7 @@
     background: $color-success;
     @media (pointer: fine) {
       label:hover & {
-        background: darken($color-success, 5%);
+        background: color.adjust($color-success, $lightness: -5%);
       }
     }
     &:after {

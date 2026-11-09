@@ -1,7 +1,7 @@
-import { browser } from '$app/environment';
+import { browser } from '$app/env';
 import { draw } from 'nomnoml';
 import PocketBase, { type CollectionModel } from 'pocketbase';
-import type { Settings } from './settings';
+import type { Settings } from './settings.svelte';
 import { sanitizeId, spaces, stripBackslashes } from './utils';
 
 export type Connection = {

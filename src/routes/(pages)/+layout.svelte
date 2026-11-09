@@ -1,12 +1,17 @@
 <script lang="ts">
-  import PageFooter from '$lib/components/PageFooter.svelte';
-  import PageHeader from '$lib/components/PageHeader.svelte';
+  import PageFooter from '#lib/components/PageFooter.svelte';
+  import PageHeader from '#lib/components/PageHeader.svelte';
+  interface Props {
+    children?: import('svelte').Snippet;
+  }
+
+  let { children }: Props = $props();
 </script>
 
 <div>
   <PageHeader />
   <main>
-    <slot />
+    {@render children?.()}
   </main>
   <PageFooter />
 </div>

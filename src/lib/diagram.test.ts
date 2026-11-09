@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { generateMarkup, normalizeCollections } from './diagram';
 import example from './example.json';
 import legacy from './fixtures/legacy-v0.22.json';
-import { defaultSettings, type Settings } from './settings';
+import { defaultSettings, type Settings } from './settings.svelte';
 
 const settings: Settings = { ...defaultSettings, showSelectValues: true };
 

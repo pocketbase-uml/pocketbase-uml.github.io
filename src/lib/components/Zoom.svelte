@@ -1,11 +1,15 @@
 <script lang="ts">
-  export let value: number;
+  interface Props {
+    value: number;
+  }
+
+  let { value }: Props = $props();
 </script>
 
 <div>{(value * 100).toFixed()}%</div>
 
 <style lang="scss">
-  @import 'src/lib/style/variables.scss';
+  @use '../style/variables' as *;
 
   div {
     position: fixed;

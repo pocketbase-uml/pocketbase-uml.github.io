@@ -1,21 +1,31 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
   import Button from './Button.svelte';
   import Modal from './Modal.svelte';
 
-  export let title: string;
-  export let yesButtonTitle = 'Yes';
-  export let noButtonTitle = 'No';
+  interface Props {
+    title: string;
+    yesButtonTitle?: string;
+    noButtonTitle?: string;
+    onyes: () => void;
+    onno: () => void;
+    children?: import('svelte').Snippet;
+  }
 
-  const dispatch = createEventDispatcher<{ yes: undefined; no: undefined }>();
-  const no = () => dispatch('no');
+  let {
+    title,
+    yesButtonTitle = 'Yes',
+    noButtonTitle = 'No',
+    onyes,
+    onno,
+    children
+  }: Props = $props();
 </script>
 
-<Modal {title} on:dismiss={no}>
-  <slot />
+<Modal {title} ondismiss={onno}>
+  {@render children?.()}
   <footer>
-    <Button on:click={() => dispatch('yes')}>{yesButtonTitle}</Button>
-    <Button outlined on:click={no}>{noButtonTitle}</Button>
+    <Button onclick={onyes}>{yesButtonTitle}</Button>
+    <Button outlined onclick={onno}>{noButtonTitle}</Button>
   </footer>
 </Modal>
 

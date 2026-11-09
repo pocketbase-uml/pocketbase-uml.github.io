@@ -1,11 +1,12 @@
 <script lang="ts">
+  import { resolve } from '$app/paths';
   import { fade } from 'svelte/transition';
   import IconLogoDrawn from './icons/IconLogoDrawn.svelte';
   import RepoBadge from './RepoBadge.svelte';
 </script>
 
 <header transition:fade>
-  <a href="/">
+  <a href={resolve('')}>
     <h1>
       <IconLogoDrawn size="1.35em" />
       <span>Pocket<strong>Base</strong>UML</span>
@@ -16,7 +17,7 @@
 </header>
 
 <style lang="scss">
-  @import 'src/lib/style/variables';
+  @use '../style/variables' as *;
 
   header {
     margin: 1.5em auto;

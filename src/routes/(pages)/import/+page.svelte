@@ -1,18 +1,19 @@
 <script lang="ts">
+  import { resolve } from '$app/paths';
   import { goto } from '$app/navigation';
-  import Button from '$lib/components/Button.svelte';
-  import Card from '$lib/components/Card.svelte';
-  import NotificationModal from '$lib/components/NotificationModal.svelte';
-  import PageMeta from '$lib/components/PageMeta.svelte';
-  import SubmitButton from '$lib/components/SubmitButton.svelte';
-  import TextareaInput from '$lib/components/TextareaInput.svelte';
-  import { validateCollections } from '$lib/diagram';
+  import Button from '#lib/components/Button.svelte';
+  import Card from '#lib/components/Card.svelte';
+  import NotificationModal from '#lib/components/NotificationModal.svelte';
+  import PageMeta from '#lib/components/PageMeta.svelte';
+  import SubmitButton from '#lib/components/SubmitButton.svelte';
+  import TextareaInput from '#lib/components/TextareaInput.svelte';
+  import { validateCollections } from '#lib/diagram.ts';
   import { encode } from 'js-base64';
   import { fade } from 'svelte/transition';
 
-  let fileInput: HTMLInputElement;
-  let code = '';
-  let error = false;
+  let fileInput: HTMLInputElement | undefined = $state();
+  let code = $state('');
+  let error = $state(false);
 
   const handleFileInputChange = (e: Event) => {
     const file = (e.target as HTMLInputElement).files?.[0];
@@ -33,7 +34,7 @@
   const handleSubmit = () => {
     try {
       const data = validateCollections(JSON.parse(code));
-      goto(`/view#${encode(JSON.stringify(data))}`);
+      goto(resolve(`view#${encode(JSON.stringify(data))}`));
     } catch {
       error = true;
     }
@@ -42,15 +43,20 @@
 
 <PageMeta title="Import server collections" />
 <div class="root" in:fade>
-  <input bind:this={fileInput} type="file" accept=".json" on:change={handleFileInputChange} />
+  <input bind:this={fileInput} type="file" accept=".json" onchange={handleFileInputChange} />
   <Card>
-    <form on:submit|preventDefault={handleSubmit}>
+    <form
+      onsubmit={(event) => {
+        event.preventDefault();
+        handleSubmit();
+      }}
+    >
       <div>
         Paste below the PocketBase collections or
-        <!-- svelte-ignore a11y-click-events-have-key-events -->
-        <!-- svelte-ignore a11y-missing-attribute -->
-        <!-- svelte-ignore a11y-interactive-supports-focus -->
-        <a class="load-json" role="button" on:click={() => fileInput.click()}
+        <!-- svelte-ignore a11y_click_events_have_key_events -->
+        <!-- svelte-ignore a11y_missing_attribute -->
+        <!-- svelte-ignore a11y_interactive_supports_focus -->
+        <a class="load-json" role="button" onclick={() => fileInput?.click()}
           >load them from a JSON file</a
         >.
       </div>
@@ -59,7 +65,7 @@
         <SubmitButton title="View diagram" disabled={code === ''} />
         {#if code !== ''}
           <div class="clear" in:fade>
-            <Button outlined on:click={handleClear}>Clear</Button>
+            <Button outlined onclick={handleClear}>Clear</Button>
           </div>
         {/if}
       </div>
@@ -67,7 +73,7 @@
   </Card>
 </div>
 {#if error}
-  <NotificationModal title="Error" on:dismiss={() => (error = false)}>
+  <NotificationModal title="Error" ondismiss={() => (error = false)}>
     <p>
       The provided code is either an invalid JSON or a collections export PocketBaseUML doesn't know
       how to draw. Make sure you paste the full array exported from your PocketBase dashboard
@@ -77,7 +83,7 @@
 {/if}
 
 <style lang="scss">
-  @import 'src/lib/style/variables';
+  @use '../../../lib/style/variables' as *;
 
   .root {
     margin: 0 auto;

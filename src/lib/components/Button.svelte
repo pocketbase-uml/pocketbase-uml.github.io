@@ -1,9 +1,23 @@
 <script lang="ts">
-  export let disabled = false;
-  export let outlined = false;
-  export let type: 'submit' | undefined = undefined;
-  export let large = false;
-  export let href: string | undefined = undefined;
+  interface Props {
+    disabled?: boolean;
+    outlined?: boolean;
+    type?: 'submit' | undefined;
+    large?: boolean;
+    href?: string | undefined;
+    onclick?: (event: MouseEvent) => void;
+    children?: import('svelte').Snippet;
+  }
+
+  let {
+    disabled = false,
+    outlined = false,
+    type = undefined,
+    large = false,
+    href = undefined,
+    onclick,
+    children
+  }: Props = $props();
 </script>
 
 <svelte:element
@@ -12,16 +26,17 @@
   class="root"
   class:outlined
   class:large
-  on:click
+  {onclick}
   {type}
   {href}
   {disabled}
 >
-  <slot />
+  {@render children?.()}
 </svelte:element>
 
 <style lang="scss">
-  @import 'src/lib/style/variables.scss';
+  @use 'sass:color';
+  @use '../style/variables' as *;
 
   .root {
     text-decoration: none;
@@ -41,7 +56,7 @@
       &:not(:disabled) {
         &:hover,
         &:focus {
-          background: lighten($color-text, 20%);
+          background: color.adjust($color-text, $lightness: 20%);
         }
       }
     }
@@ -55,7 +70,7 @@
     &.outlined {
       color: $color-text;
       background: $color-paper;
-      border: 2px solid lighten($color-text, 20%);
+      border: 2px solid color.adjust($color-text, $lightness: 20%);
       @media (pointer: fine) {
         &:not(:disabled) {
           &:hover,

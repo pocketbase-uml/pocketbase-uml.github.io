@@ -1,12 +1,23 @@
 <script lang="ts">
   import InputLabel from './InputLabel.svelte';
 
-  export let label: string;
-  export let value: string = '';
-  export let type: 'url' | 'email' | 'password' | undefined = undefined;
-  export let placeholder: string | undefined = undefined;
-  export let spellcheck = false;
-  export let required = false;
+  interface Props {
+    label: string;
+    value?: string;
+    type?: 'url' | 'email' | 'password' | undefined;
+    placeholder?: string | undefined;
+    spellcheck?: boolean;
+    required?: boolean;
+  }
+
+  let {
+    label,
+    value = $bindable(''),
+    type = undefined,
+    placeholder = undefined,
+    spellcheck = false,
+    required = false
+  }: Props = $props();
 
   const handleInput = (e: Event) => {
     value = (e.target as HTMLInputElement).value;
@@ -15,11 +26,11 @@
 
 <label>
   <InputLabel value={label} {required} />
-  <input {type} {value} on:input={handleInput} {placeholder} {spellcheck} {required} />
+  <input {type} {value} oninput={handleInput} {placeholder} {spellcheck} {required} />
 </label>
 
 <style lang="scss">
-  @import 'src/lib/style/variables';
+  @use '../style/variables' as *;
 
   label {
     display: flex;

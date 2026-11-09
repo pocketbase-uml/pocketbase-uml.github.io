@@ -21,6 +21,9 @@ You can access it online at [pocketbase-uml.github.io](https://pocketbase-uml.gi
 npx pocketbase-uml@latest
 ```
 
+Running it locally requires [Node.js](https://nodejs.org) 22.17 or newer.
+Use `-p <port>` to listen on a port other than the default `9000`.
+
 Due to security browser restrictions, the online application can only access PocketBase databases through HTTPS.  
 If you want to access a local PocketBase databases through HTTP, you can either run the application locally or use a service such as [ngrok](https://ngrok.com) to expose your local server to the Internet.
 

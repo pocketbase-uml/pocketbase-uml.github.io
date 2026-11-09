@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { REPO_URL } from '$lib/config';
+  import { REPO_URL } from '#lib/config.ts';
 </script>
 
-<a href={REPO_URL} aria-label="View source on GitHub" target="_blank">
+<a href={REPO_URL} aria-label="View source on GitHub" target="_blank" rel="external noreferrer">
   <svg viewBox="0 0 250 250" aria-hidden="true">
     <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z" />
     <path
@@ -18,10 +18,11 @@
 </a>
 
 <style lang="scss">
-  @import 'src/lib/style/variables';
+  @use 'sass:color';
+  @use '../style/variables' as *;
 
   svg {
-    fill: lighten($color-text, 20%);
+    fill: color.adjust($color-text, $lightness: 20%);
     color: $color-background;
     position: absolute;
     top: 0;

@@ -1,54 +1,44 @@
 <script lang="ts">
-  import { createEventDispatcher, onMount } from 'svelte';
   import { backOut } from 'svelte/easing';
   import { fade, fly } from 'svelte/transition';
   import ActionButton from './ActionButton.svelte';
   import Card from './Card.svelte';
   import IconClose from './icons/IconClose.svelte';
 
-  export let title: string;
+  interface Props {
+    title: string;
+    ondismiss: () => void;
+    children?: import('svelte').Snippet;
+  }
 
-  const dispatch = createEventDispatcher<{ dismiss: undefined }>();
-  const dismiss = () => dispatch('dismiss');
-  let root: HTMLDialogElement;
+  let { title, ondismiss, children }: Props = $props();
 
   const onWindowKeyDown = (event: KeyboardEvent) => {
-    if (event.key === 'Escape') {
-      dismiss();
-    }
+    if (event.key === 'Escape') ondismiss();
   };
 
-  onMount(() => {
-    window.addEventListener('keydown', onWindowKeyDown);
-
-    return () => {
-      window.removeEventListener('keydown', onWindowKeyDown);
-    };
-  });
+  const flyIn = (node: Element) =>
+    fly(node, { y: -node.clientHeight * 2, easing: backOut, delay: 100 });
+  const flyOut = (node: Element) => fly(node, { y: -node.clientHeight, duration: 100 });
 </script>
 
-<!-- svelte-ignore a11y-click-events-have-key-events a11y-no-static-element-interactions -->
-<div in:fade out:fade={{ duration: 100, delay: 100 }} on:click={dismiss}>
-  <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-  <dialog
-    bind:this={root}
-    open={true}
-    in:fly={{ y: -root.clientHeight * 2, easing: backOut, delay: 100 }}
-    out:fly={{ y: -root.clientHeight, duration: 100 }}
-    on:click|stopPropagation
-  >
+<svelte:window onkeydown={onWindowKeyDown} />
+
+<!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
+<div in:fade out:fade={{ duration: 100, delay: 100 }} onclick={ondismiss}>
+  <dialog open={true} in:flyIn out:flyOut onclick={(event) => event.stopPropagation()}>
     <Card>
       <header>
         <h2>{title}</h2>
-        <ActionButton title="Close" on:click={dismiss}><IconClose /></ActionButton>
+        <ActionButton title="Close" onclick={ondismiss}><IconClose /></ActionButton>
       </header>
-      <slot />
+      {@render children?.()}
     </Card>
   </dialog>
 </div>
 
 <style lang="scss">
-  @import 'src/lib/style/variables.scss';
+  @use '../style/variables' as *;
 
   div {
     z-index: 1;

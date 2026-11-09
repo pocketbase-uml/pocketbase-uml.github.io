@@ -1,20 +1,21 @@
 <script lang="ts">
+  import { resolve } from '$app/paths';
   import { goto } from '$app/navigation';
-  import Card from '$lib/components/Card.svelte';
-  import NotificationModal from '$lib/components/NotificationModal.svelte';
-  import PageMeta from '$lib/components/PageMeta.svelte';
-  import SubmitButton from '$lib/components/SubmitButton.svelte';
-  import TextInput from '$lib/components/TextInput.svelte';
-  import { LOCAL_STORAGE_CONNECTION_KEY } from '$lib/config';
+  import Card from '#lib/components/Card.svelte';
+  import NotificationModal from '#lib/components/NotificationModal.svelte';
+  import PageMeta from '#lib/components/PageMeta.svelte';
+  import SubmitButton from '#lib/components/SubmitButton.svelte';
+  import TextInput from '#lib/components/TextInput.svelte';
+  import { LOCAL_STORAGE_CONNECTION_KEY } from '#lib/config.ts';
   import { decode, encode } from 'js-base64';
   import { onMount } from 'svelte';
   import { fade } from 'svelte/transition';
 
-  let url = '';
-  let email = '';
-  let password = '';
-  let secure = false;
-  let securityMismatchError = false;
+  let url = $state('');
+  let email = $state('');
+  let password = $state('');
+  let secure = $state(false);
+  let securityMismatchError = $state(false);
 
   onMount(() => {
     const connection = localStorage.getItem(LOCAL_STORAGE_CONNECTION_KEY);
@@ -38,14 +39,19 @@
       LOCAL_STORAGE_CONNECTION_KEY,
       encode(JSON.stringify({ url, email, password }))
     );
-    goto('/view');
+    goto(resolve('view'));
   };
 </script>
 
 <PageMeta title="Connect to a server" />
 <div class="root" in:fade>
   <Card>
-    <form on:submit|preventDefault={handleSubmit}>
+    <form
+      onsubmit={(event) => {
+        event.preventDefault();
+        handleSubmit();
+      }}
+    >
       <TextInput
         bind:value={url}
         label="PocketBase Server{secure ? ' (https)' : ''}"
@@ -60,7 +66,7 @@
   </Card>
 </div>
 {#if securityMismatchError}
-  <NotificationModal title="Security mismatch" on:dismiss={() => (securityMismatchError = false)}>
+  <NotificationModal title="Security mismatch" ondismiss={() => (securityMismatchError = false)}>
     <p>
       PocketBaseUML cannot connect to this server because browsers block accessing unsecure
       <strong>http</strong> resources from <strong>https</strong> websites.
@@ -72,23 +78,23 @@
         use a secure tunneling service like <a
           href="https://ngrok.com/"
           target="_blank"
-          rel="noreferrer">ngrok</a
+          rel="external noreferrer">ngrok</a
         > to expose your server though https;
       </li>
       <li>
         <a
           href="{url.replace(/\/$/, '')}/_/#/settings/export-collections"
           target="_blank"
-          rel="noreferrer">export the collections JSON from the server</a
+          rel="external noreferrer">export the collections JSON from the server</a
         >
-        and paste it <a href="/import">here</a>.
+        and paste it <a href={resolve('import')}>here</a>.
       </li>
     </ul>
   </NotificationModal>
 {/if}
 
 <style lang="scss">
-  @import 'src/lib/style/variables';
+  @use '../../../lib/style/variables' as *;
 
   div {
     margin: 0 auto;

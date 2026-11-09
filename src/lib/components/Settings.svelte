@@ -1,52 +1,43 @@
 <script lang="ts">
-  import { createEventDispatcher, onMount } from 'svelte';
   import { backOut } from 'svelte/easing';
   import { fade, fly } from 'svelte/transition';
   import Card from './Card.svelte';
 
-  let root: HTMLDivElement;
+  interface Props {
+    ondismiss: () => void;
+    children?: import('svelte').Snippet;
+  }
 
-  const dispatch = createEventDispatcher<{ dismiss: undefined }>();
-
-  const dismiss = () => dispatch('dismiss');
+  let { ondismiss, children }: Props = $props();
 
   const onWindowKeyDown = (event: KeyboardEvent) => {
-    if (event.key === 'Escape') {
-      dismiss();
-    }
+    if (event.key === 'Escape') ondismiss();
   };
 
-  onMount(() => {
-    window.addEventListener('keydown', onWindowKeyDown);
-
-    return () => {
-      window.removeEventListener('keydown', onWindowKeyDown);
-    };
-  });
+  const flyIn = (node: Element) =>
+    fly(node, { y: -node.clientHeight, duration: 200, delay: 200, easing: backOut });
+  const flyOut = (node: Element) => fly(node, { y: -node.clientHeight, duration: 200 });
 </script>
 
-<!-- svelte-ignore a11y-click-events-have-key-events a11y-no-static-element-interactions -->
+<svelte:window onkeydown={onWindowKeyDown} />
+
+<!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
 <div
   class="backdrop"
   in:fade={{ duration: 200 }}
   out:fade={{ duration: 200, delay: 200 }}
-  on:click={dismiss}
-/>
-<div
-  class="root"
-  bind:this={root}
-  in:fly={{ y: -root.clientHeight, duration: 200, delay: 200, easing: backOut }}
-  out:fly={{ y: -root.clientHeight, duration: 200 }}
->
+  onclick={ondismiss}
+></div>
+<div class="root" in:flyIn out:flyOut>
   <Card>
     <div class="content">
-      <slot />
+      {@render children?.()}
     </div>
   </Card>
 </div>
 
 <style lang="scss">
-  @import 'src/lib/style/variables.scss';
+  @use '../style/variables' as *;
 
   .backdrop {
     z-index: 1;

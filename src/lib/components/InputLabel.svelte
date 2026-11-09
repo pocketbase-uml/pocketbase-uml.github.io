@@ -1,12 +1,16 @@
 <script lang="ts">
-  export let value: string;
-  export let required = false;
+  interface Props {
+    value: string;
+    required?: boolean;
+  }
+
+  let { value, required = false }: Props = $props();
 </script>
 
 <span class:required>{value.toUpperCase()}</span>
 
 <style lang="scss">
-  @import 'src/lib/style/variables';
+  @use '../style/variables' as *;
 
   span {
     font-size: $font-size-smaller;

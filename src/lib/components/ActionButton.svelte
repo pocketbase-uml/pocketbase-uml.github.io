@@ -1,12 +1,18 @@
 <script lang="ts">
-  export let title: string;
-  export let disabled = false;
+  interface Props {
+    title: string;
+    disabled?: boolean;
+    onclick?: (event: MouseEvent) => void;
+    children?: import('svelte').Snippet;
+  }
+
+  let { title, disabled = false, onclick, children }: Props = $props();
 </script>
 
-<button {title} {disabled} on:click><slot /></button>
+<button {title} {disabled} {onclick}>{@render children?.()}</button>
 
 <style lang="scss">
-  @import 'src/lib/style/variables.scss';
+  @use '../style/variables' as *;
 
   button {
     width: 40px;

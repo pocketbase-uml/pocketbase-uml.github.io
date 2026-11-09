@@ -1,5 +1,4 @@
-@import 'the-new-css-reset';
-@import 'variables';
+@use 'variables' as *;
 
 html {
   color: $color-text;

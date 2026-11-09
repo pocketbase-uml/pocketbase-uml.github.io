@@ -1,11 +1,11 @@
 <script lang="ts">
-  import { notifications } from '$lib/notifications';
+  import { notifications } from '#lib/notifications.svelte.ts';
   import { fade, fly } from 'svelte/transition';
   import IconCheck from './icons/IconCheck.svelte';
 </script>
 
 <div class="root">
-  {#each $notifications as { id, message } (id)}
+  {#each notifications as { id, message } (id)}
     <div class="notification" in:fly={{ y: -10 }} out:fade>
       <div class="icon"><IconCheck /></div>
       <div>{message}</div>
@@ -14,7 +14,7 @@
 </div>
 
 <style lang="scss">
-  @import 'src/lib/style/variables.scss';
+  @use '../style/variables' as *;
 
   .root {
     position: fixed;

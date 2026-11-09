@@ -13,7 +13,11 @@ const { port } = program
   .name(name)
   .version(version)
   .description(description)
-  .addOption(new Option('-p, --port <port>', 'port to listen on').default(9000).argParser(parseInt))
+  .addOption(
+    new Option('-p, --port <port>', 'port to listen on')
+      .default(9000)
+      .argParser((value) => Number.parseInt(value, 10))
+  )
   .parse()
   .opts();
 
